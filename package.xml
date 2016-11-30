@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>rosban_bbo</name>
+  <version>0.0.0</version>
+  <description>
+    This package contains several blackbox optimizers and a factory allowing to
+    build them from xml.
+  </description>
+
+  <maintainer email="medrimonia@gmail.com">medrimonia</maintainer>
+  <author email="medrimonia@gmail.com">medrimonia</author>
+
+  <license>NCY</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rosban_utils</build_depend> <!-- git@bitbucket.org:rhoban/rosban_utils.git -->
+  <build_depend>rosban_random</build_depend> <!-- git@bitbucket.org:rhoban/rosban_random.git -->
+
+  <run_depend>rosban_utils</run_depend>
+  <run_depend>rosban_random</run_depend>
+
+  <export/>
+</package>
