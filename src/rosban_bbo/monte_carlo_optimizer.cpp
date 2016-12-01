@@ -29,6 +29,13 @@ Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc & reward_sampler,
       best_candidate = candidate;
     }
   }
+  if (best_candidate.rows() == 0) {
+    std::ostringstream oss;
+    oss << "MonteCarloOptimizer::train: no candidate has been found: " << std::endl
+        << "nb_trials: " << nb_trials << std::endl
+        << "limits" << std::endl << getLimits() << std::endl;
+    throw std::logic_error(oss.str());
+  }
   return best_candidate;
 }
 
