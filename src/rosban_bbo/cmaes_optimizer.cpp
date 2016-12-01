@@ -8,6 +8,9 @@ namespace rosban_bbo
 {
 
 CMAESOptimizer::CMAESOptimizer()
+  : nb_iterations(100),
+    nb_evaluations(1000),
+    nb_restarts(1)
 {
 }
 
@@ -40,9 +43,9 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   cma_params.set_str_algo("abipop");
   cma_params.set_noisy();
   cma_params.set_elitism(1);
-  cma_params.set_restarts(1);
-  cma_params.set_max_iter(1000);
-  cma_params.set_max_fevals(1000);
+  cma_params.set_restarts(nb_restarts);
+  cma_params.set_max_iter(nb_iterations);
+  cma_params.set_max_fevals(nb_evaluations);
   // Solve cmaes
   CMASolutions sols = cmaes<GenoPheno<pwqBoundStrategy>>(fitness,cma_params);
   return sols.get_best_seen_candidate().get_x_dvec();
@@ -55,10 +58,16 @@ std::string CMAESOptimizer::class_name() const
 
 void CMAESOptimizer::to_xml(std::ostream &out) const
 {
+  rosban_utils::xml_tools::write<int>("nb_iterations" , nb_iterations , out);
+  rosban_utils::xml_tools::write<int>("nb_evaluations", nb_evaluations, out);
+  rosban_utils::xml_tools::write<int>("nb_restarts"   , nb_restarts   , out);
 }
 
 void CMAESOptimizer::from_xml(TiXmlNode *node)
 {
+  rosban_utils::xml_tools::try_read<int>(node, "nb_iterations" , nb_iterations );
+  rosban_utils::xml_tools::try_read<int>(node, "nb_evaluations", nb_evaluations);
+  rosban_utils::xml_tools::try_read<int>(node, "nb_restarts"   , nb_restarts   );
 }
 
 

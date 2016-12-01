@@ -16,7 +16,11 @@ public:
 
 private:
   /// Nb different set of parameters tested
-  int nb_trials;
+  int nb_iterations;
+  /// Nb function evaluations
+  int nb_evaluations;
+  /// Number of restarts allowed
+  int nb_restarts;
 };
 
 }
