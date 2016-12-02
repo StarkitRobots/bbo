@@ -37,7 +37,8 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
                                  dims);
   // cmaes parameters
   // TODO: replace those parameter by custom parameters
-  CMAParameters<GenoPheno<pwqBoundStrategy>> cma_params(init_params, sigma, -1, 0, gp);
+  CMAParameters<GenoPheno<pwqBoundStrategy>> cma_params(init_params,
+                                                        sigma, -1, 0, gp);
   cma_params.set_quiet(true);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
