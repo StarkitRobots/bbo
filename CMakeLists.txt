@@ -47,3 +47,6 @@ endforeach (DIRECTORY)
 # Declare the library
 add_library(rosban_bbo ${ALL_SOURCES} )
 target_link_libraries(rosban_bbo ${catkin_LIBRARIES})
+
+add_executable(test_cmaes_limits src/test_cmaes_limits.cpp)
+target_link_libraries(test_cmaes_limits ${catkin_LIBRARIES})

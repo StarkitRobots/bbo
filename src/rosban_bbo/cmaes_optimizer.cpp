@@ -28,6 +28,7 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   // For each dimension, sigma depends on the overall size of the
   // parameters amplitude
   std::vector<double> sigma(dims), init_params(dims);
+  std::vector<double> lower_bounds(dims), upper_bounds(dims);
   for (int dim = 0; dim < dims; dim++) {
     double dim_min = getLimits()(dim, 0);
     double dim_max = getLimits()(dim, 1);
@@ -37,9 +38,18 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
     sigma[dim] = 0.25 * dim_size;
     // Initial parameters are in the middle of the space
     init_params[dim] = dim_mean;
+    // Limits are also saved as vector<double>
+    lower_bounds[dim] = dim_min;
+    upper_bounds[dim] = dim_max;
   }
+  // GenoType + PhenoType values (limits + linear scaling)
+  GenoPheno<pwqBoundStrategy,linScalingStrategy> gp(lower_bounds.data(),
+                                                    upper_bounds.data(),
+                                                    dims);
   // cmaes parameters (probably not chosen optimally yet)
-  CMAParameters<> cma_params(init_params, sigma, -1);
+  CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>> cma_params
+    (dims,init_params.data(), 0.1,-1,0,gp);
+  //CMAParameters<> cma_params(init_params, sigma, -1, lower_bounds, upper_bounds);
   cma_params.set_quiet(true);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
@@ -49,8 +59,23 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   cma_params.set_max_iter(nb_iterations);
   cma_params.set_max_fevals(nb_evaluations);
   // Solve cmaes
-  CMASolutions sols = cmaes<>(fitness,cma_params);
-  return sols.get_best_seen_candidate().get_x_dvec();
+  CMASolutions sols = cmaes<GenoPheno<pwqBoundStrategy,linScalingStrategy>>(fitness,cma_params);
+  Eigen::VectorXd best_sol = gp.pheno(sols.get_best_seen_candidate().get_x_dvec());
+  // Checking bounds
+  bool inside_bounds = true;
+  for (int dim = 0; dim < dims; dim++) {
+    if (best_sol(dim) < getLimits()(dim,0) ||
+        best_sol(dim) > getLimits()(dim,1)) {
+      inside_bounds = false;
+    }
+  }
+  if (!inside_bounds) {
+    std::cout << "WARNING: solution provided by CMAES optimizer is out of bounds" << std::endl;
+    std::cout << "sol: " << best_sol.transpose() << std::endl;
+    std::cout << "sol2: " << sols << std::endl;
+    std::cout << "space:" << std::endl << getLimits().transpose() << std::endl;
+  }
+  return best_sol;
 }
 
 std::string CMAESOptimizer::class_name() const
