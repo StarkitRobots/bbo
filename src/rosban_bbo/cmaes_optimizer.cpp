@@ -25,20 +25,21 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
     };
 
   int dims = getLimits().rows();
-  // Sigma depends on the smallest dimension:
-  // TODO: normalize dimensions
-  double sigma = (getLimits().col(1) - getLimits().col(0)).minCoeff() / 10;
-  // Initial parameters are in the middle of the space
-  Eigen::VectorXd init_params = (getLimits().col(0) + getLimits().col(1)) / 2;
-  
-  // cmaes boundaries
-  GenoPheno<pwqBoundStrategy> gp(getLimits().col(0).data(),
-                                 getLimits().col(1).data(),
-                                 dims);
-  // cmaes parameters
-  // TODO: replace those parameter by custom parameters
-  CMAParameters<GenoPheno<pwqBoundStrategy>> cma_params(init_params,
-                                                        sigma, -1, 0, gp);
+  // For each dimension, sigma depends on the overall size of the
+  // parameters amplitude
+  std::vector<double> sigma(dims), init_params(dims);
+  for (int dim = 0; dim < dims; dim++) {
+    double dim_min = getLimits()(dim, 0);
+    double dim_max = getLimits()(dim, 1);
+    double dim_mean = (dim_max + dim_min) / 2.0;
+    double dim_size = dim_max - dim_min;
+    // According to CMA-ES documentation, solution should lie inside mu +- 2 sigma
+    sigma[dim] = 0.25 * dim_size;
+    // Initial parameters are in the middle of the space
+    init_params[dim] = dim_mean;
+  }
+  // cmaes parameters (probably not chosen optimally yet)
+  CMAParameters<> cma_params(init_params, sigma, -1);
   cma_params.set_quiet(true);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
@@ -48,7 +49,7 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   cma_params.set_max_iter(nb_iterations);
   cma_params.set_max_fevals(nb_evaluations);
   // Solve cmaes
-  CMASolutions sols = cmaes<GenoPheno<pwqBoundStrategy>>(fitness,cma_params);
+  CMASolutions sols = cmaes<>(fitness,cma_params);
   return sols.get_best_seen_candidate().get_x_dvec();
 }
 
