@@ -8,9 +8,12 @@ namespace rosban_bbo
 {
 
 CMAESOptimizer::CMAESOptimizer()
-  : nb_iterations(100),
+  : quiet(true),
+    nb_iterations(100),
     nb_evaluations(1000),
-    nb_restarts(1)
+    nb_restarts(1),
+    ftolerance(1e-10),
+    max_history(-1)
 {
 }
 
@@ -27,15 +30,11 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   int dims = getLimits().rows();
   // For each dimension, sigma depends on the overall size of the
   // parameters amplitude
-  std::vector<double> sigma(dims), init_params(dims);
-  std::vector<double> lower_bounds(dims), upper_bounds(dims);
+  std::vector<double> init_params(dims), lower_bounds(dims), upper_bounds(dims);
   for (int dim = 0; dim < dims; dim++) {
     double dim_min = getLimits()(dim, 0);
     double dim_max = getLimits()(dim, 1);
     double dim_mean = (dim_max + dim_min) / 2.0;
-    double dim_size = dim_max - dim_min;
-    // According to CMA-ES documentation, solution should lie inside mu +- 2 sigma
-    sigma[dim] = 0.25 * dim_size;
     // Initial parameters are in the middle of the space
     init_params[dim] = dim_mean;
     // Limits are also saved as vector<double>
@@ -47,10 +46,10 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
                                                     upper_bounds.data(),
                                                     dims);
   // cmaes parameters (probably not chosen optimally yet)
+  double sigma = 0.5;// The choice of this value is not entirely understood yet
   CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>> cma_params
-    (dims,init_params.data(), 0.1,-1,0,gp);
-  //CMAParameters<> cma_params(init_params, sigma, -1, lower_bounds, upper_bounds);
-  cma_params.set_quiet(true);
+    (dims,init_params.data(), sigma,-1,0,gp);
+  cma_params.set_quiet(quiet);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
   cma_params.set_noisy();
@@ -58,6 +57,8 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   cma_params.set_restarts(nb_restarts);
   cma_params.set_max_iter(nb_iterations);
   cma_params.set_max_fevals(nb_evaluations);
+  if (ftolerance > 0) cma_params.set_ftolerance(ftolerance);
+  if (max_history > 0) cma_params.set_max_hist(max_history);
   // Solve cmaes
   CMASolutions sols = cmaes<GenoPheno<pwqBoundStrategy,linScalingStrategy>>(fitness,cma_params);
   Eigen::VectorXd best_sol = gp.pheno(sols.get_best_seen_candidate().get_x_dvec());
@@ -72,7 +73,6 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   if (!inside_bounds) {
     std::cout << "WARNING: solution provided by CMAES optimizer is out of bounds" << std::endl;
     std::cout << "sol: " << best_sol.transpose() << std::endl;
-    std::cout << "sol2: " << sols << std::endl;
     std::cout << "space:" << std::endl << getLimits().transpose() << std::endl;
   }
   return best_sol;
@@ -85,16 +85,22 @@ std::string CMAESOptimizer::class_name() const
 
 void CMAESOptimizer::to_xml(std::ostream &out) const
 {
-  rosban_utils::xml_tools::write<int>("nb_iterations" , nb_iterations , out);
-  rosban_utils::xml_tools::write<int>("nb_evaluations", nb_evaluations, out);
-  rosban_utils::xml_tools::write<int>("nb_restarts"   , nb_restarts   , out);
+  rosban_utils::xml_tools::write<bool>  ("quiet"         , quiet         , out);
+  rosban_utils::xml_tools::write<int>   ("nb_iterations" , nb_iterations , out);
+  rosban_utils::xml_tools::write<int>   ("nb_evaluations", nb_evaluations, out);
+  rosban_utils::xml_tools::write<int>   ("nb_restarts"   , nb_restarts   , out);
+  rosban_utils::xml_tools::write<int>   ("max_history"   , max_history   , out);
+  rosban_utils::xml_tools::write<double>("ftolerance"    , ftolerance    , out);
 }
 
 void CMAESOptimizer::from_xml(TiXmlNode *node)
 {
-  rosban_utils::xml_tools::try_read<int>(node, "nb_iterations" , nb_iterations );
-  rosban_utils::xml_tools::try_read<int>(node, "nb_evaluations", nb_evaluations);
-  rosban_utils::xml_tools::try_read<int>(node, "nb_restarts"   , nb_restarts   );
+  rosban_utils::xml_tools::try_read<bool>  (node, "quiet"         , quiet         );
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_iterations" , nb_iterations );
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_evaluations", nb_evaluations);
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_restarts"   , nb_restarts   );
+  rosban_utils::xml_tools::try_read<int>   (node, "max_history"   , max_history   );
+  rosban_utils::xml_tools::try_read<double>(node, "ftolerance"    , ftolerance    );
 }
 
 

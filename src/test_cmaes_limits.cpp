@@ -13,7 +13,7 @@ FitFunc easy_func = [] (const double *x, const int N)
 
 /// Those values are shared by all dimensions
 double dim_min = 1.0;
-double dim_max = 3.0;
+double dim_max = 3000.0;
 
 void testBounds1(int nb_dims)
 {
@@ -52,7 +52,7 @@ void testBounds2(int nb_dims)
     lower_bounds[dim] = dim_min;
     upper_bounds[dim] = dim_max;
   }
-  double sigma = 0.1;
+  double sigma = 0.5;
   // GenoType + PhenoType values (limits + linear scaling)
   GenoPheno<pwqBoundStrategy,linScalingStrategy> gp(lower_bounds.data(),
                                                     upper_bounds.data(),
@@ -60,20 +60,20 @@ void testBounds2(int nb_dims)
   // Setup parameters
   CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>> cma_params
     (nb_dims,init_params.data(), sigma,-1,0,gp);
-  cma_params.set_quiet(true);
+  cma_params.set_quiet(false);
   cma_params.set_mt_feval(false);
-  //cma_params.set_str_algo("abipop");
-  //cma_params.set_noisy();
-  //cma_params.set_elitism(1);
-  cma_params.set_restarts(0);
-  cma_params.set_max_iter(50);
-  cma_params.set_max_fevals(100);
+  cma_params.set_str_algo("abipop");
+  cma_params.set_noisy();
+  cma_params.set_elitism(1);
+  cma_params.set_restarts(5);
+  cma_params.set_max_iter(2500);
+  cma_params.set_max_fevals(5000);
+  cma_params.set_ftolerance(0.1);
+  cma_params.set_max_hist(5);
   CMASolutions sols = cmaes<GenoPheno<pwqBoundStrategy,linScalingStrategy>>(easy_func,cma_params);
   Eigen::VectorXd best_sol = gp.pheno(sols.get_best_seen_candidate().get_x_dvec());
   std::cout << "runStatus: " << sols.run_status() << std::endl;
   std::cout << "testBounds2: "  << best_sol.transpose() << std::endl;
-  std::cout << "\tAlternative print: ";
-  sols.print(std::cout,0,gp);
   std::cout << std::endl;
 }
 
