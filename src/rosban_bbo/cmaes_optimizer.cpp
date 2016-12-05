@@ -9,9 +9,10 @@ namespace rosban_bbo
 
 CMAESOptimizer::CMAESOptimizer()
   : quiet(true),
-    nb_iterations(100),
+    nb_iterations(-1),
     nb_evaluations(1000),
     nb_restarts(1),
+    population_size(-1),
     ftolerance(1e-10),
     max_history(-1)
 {
@@ -47,16 +48,21 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
                                                     dims);
   // cmaes parameters (probably not chosen optimally yet)
   double sigma = 0.5;// The choice of this value is not entirely understood yet
+  // Population size
+  int lambda = -1;
+  if (population_size > 0) lambda = population_size;
+  // Creating the cma_params object with bound and linear scaling strategy
   CMAParameters<GenoPheno<pwqBoundStrategy,linScalingStrategy>> cma_params
-    (dims,init_params.data(), sigma,-1,0,gp);
+    (dims,init_params.data(), sigma,lambda,0,gp);
+  // Updating params of
+  //cma_params.set_noisy();//Effect of this function is quite unclear
   cma_params.set_quiet(quiet);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
-  cma_params.set_noisy();
   cma_params.set_elitism(1);
   cma_params.set_restarts(nb_restarts);
-  cma_params.set_max_iter(nb_iterations);
   cma_params.set_max_fevals(nb_evaluations);
+  if (nb_iterations > 0) cma_params.set_max_iter(nb_iterations);
   if (ftolerance > 0) cma_params.set_ftolerance(ftolerance);
   if (max_history > 0) cma_params.set_max_hist(max_history);
   // Solve cmaes
@@ -85,22 +91,24 @@ std::string CMAESOptimizer::class_name() const
 
 void CMAESOptimizer::to_xml(std::ostream &out) const
 {
-  rosban_utils::xml_tools::write<bool>  ("quiet"         , quiet         , out);
-  rosban_utils::xml_tools::write<int>   ("nb_iterations" , nb_iterations , out);
-  rosban_utils::xml_tools::write<int>   ("nb_evaluations", nb_evaluations, out);
-  rosban_utils::xml_tools::write<int>   ("nb_restarts"   , nb_restarts   , out);
-  rosban_utils::xml_tools::write<int>   ("max_history"   , max_history   , out);
-  rosban_utils::xml_tools::write<double>("ftolerance"    , ftolerance    , out);
+  rosban_utils::xml_tools::write<bool>  ("quiet"          , quiet          , out);
+  rosban_utils::xml_tools::write<int>   ("nb_iterations"  , nb_iterations  , out);
+  rosban_utils::xml_tools::write<int>   ("nb_evaluations" , nb_evaluations , out);
+  rosban_utils::xml_tools::write<int>   ("nb_restarts"    , nb_restarts    , out);
+  rosban_utils::xml_tools::write<int>   ("population_size", population_size, out);
+  rosban_utils::xml_tools::write<int>   ("max_history"    , max_history    , out);
+  rosban_utils::xml_tools::write<double>("ftolerance"     , ftolerance     , out);
 }
 
 void CMAESOptimizer::from_xml(TiXmlNode *node)
 {
-  rosban_utils::xml_tools::try_read<bool>  (node, "quiet"         , quiet         );
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_iterations" , nb_iterations );
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_evaluations", nb_evaluations);
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_restarts"   , nb_restarts   );
-  rosban_utils::xml_tools::try_read<int>   (node, "max_history"   , max_history   );
-  rosban_utils::xml_tools::try_read<double>(node, "ftolerance"    , ftolerance    );
+  rosban_utils::xml_tools::try_read<bool>  (node, "quiet"          , quiet          );
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_iterations"  , nb_iterations  );
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_evaluations" , nb_evaluations );
+  rosban_utils::xml_tools::try_read<int>   (node, "nb_restarts"    , nb_restarts    );
+  rosban_utils::xml_tools::try_read<int>   (node, "population_size", population_size);
+  rosban_utils::xml_tools::try_read<int>   (node, "max_history"    , max_history    );
+  rosban_utils::xml_tools::try_read<double>(node, "ftolerance"     , ftolerance     );
 }
 
 

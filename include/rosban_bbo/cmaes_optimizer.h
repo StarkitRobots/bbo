@@ -17,12 +17,20 @@ public:
 private:
   /// Should CMAES write on cout
   bool quiet;
-  /// Nb different set of parameters tested
+  /// Maximal number of iterations for the CMAES process
+  /// unused if <= 0
   int nb_iterations;
-  /// Nb function evaluations
+  /// Maximal number of function evaluations
+  /// (CMAES can actually use a few additional evaluation to end one of its iterations)
   int nb_evaluations;
   /// Number of restarts allowed
+  /// Note: parameters such as nb_evaluations and nb_iterations concerns a single run,
+  ///       therefore, if you set nb_restart at 5, total number of evaluations will be
+  ///       5 * nb_evaluations
   int nb_restarts;
+  /// The size of the population used for a single iteration of the CMAES algorithm
+  /// Unused if <= 0
+  int population_size;
   /// If the highest diff in the last 'max_history' entries is below ftolerance,
   /// then the optimization stops
   /// negative values lead to default cmaes behavior
