@@ -47,7 +47,7 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
                                                     upper_bounds.data(),
                                                     dims);
   // cmaes parameters (probably not chosen optimally yet)
-  double sigma = 0.5;// The choice of this value is not entirely understood yet
+  double sigma = -1;//Automatic choice for the step size
   // Population size
   int lambda = -1;
   if (population_size > 0) lambda = population_size;
