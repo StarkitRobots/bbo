@@ -19,12 +19,12 @@ CMAESOptimizer::CMAESOptimizer()
 }
 
 Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
+                                      const Eigen::VectorXd & initial_candidate,
                                       std::default_random_engine * engine)
 {
   libcmaes::FitFuncEigen fitness =
     [reward, engine](const Eigen::VectorXd & params)
     {
-      //TODO: generate another random engine based on engine and use a mutex
       return -reward(params, engine);
     };
 
@@ -35,9 +35,8 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   for (int dim = 0; dim < dims; dim++) {
     double dim_min = getLimits()(dim, 0);
     double dim_max = getLimits()(dim, 1);
-    double dim_mean = (dim_max + dim_min) / 2.0;
     // Initial parameters are in the middle of the space
-    init_params[dim] = dim_mean;
+    init_params[dim] = initial_candidate(dim);
     // Limits are also saved as vector<double>
     lower_bounds[dim] = dim_min;
     upper_bounds[dim] = dim_max;

@@ -12,13 +12,18 @@ MonteCarloOptimizer::MonteCarloOptimizer()
 {}
 
 Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc & reward_sampler,
+                                           const Eigen::VectorXd & initial_candidate,
                                            std::default_random_engine * engine)
 {
+  // No need for initial candidate when doing pure random
+  (void) initial_candidate;
+
   // Sampling candidates
   std::vector<Eigen::VectorXd> candidates;
   candidates = rosban_random::getUniformSamples(getLimits(),
                                                 nb_trials,
                                                 engine);
+
   // Getting best candidates
   double best_reward = std::numeric_limits<double>::lowest();
   Eigen::VectorXd best_candidate;

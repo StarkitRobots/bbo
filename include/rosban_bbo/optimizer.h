@@ -18,7 +18,12 @@ public:
                                std::default_random_engine * engine)> RewardFunc;
                                
 
+  /// Train the parameters inside the limits using default prior candidate
+  /// default is the center of the space
+  Eigen::VectorXd train(RewardFunc & reward, std::default_random_engine * engine);
+
   virtual Eigen::VectorXd train(RewardFunc & reward,
+                                const Eigen::VectorXd & initial_candidate,
                                 std::default_random_engine * engine) = 0;
 
 

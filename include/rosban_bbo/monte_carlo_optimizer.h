@@ -8,6 +8,7 @@ public:
   MonteCarloOptimizer();
 
   virtual Eigen::VectorXd train(RewardFunc & reward,
+                                const Eigen::VectorXd & initial_candidate,
                                 std::default_random_engine * engine);
 
   virtual std::string class_name() const;
