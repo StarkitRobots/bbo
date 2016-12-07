@@ -29,15 +29,19 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
     };
 
   int dims = getLimits().rows();
-  // For each dimension, sigma depends on the overall size of the
-  // parameters amplitude
+  if (initial_candidate.rows() != dims) {
+    std::ostringstream oss;
+    oss << "CMAESOptimizer: Provided initial candidate has invalid number of rows: "
+        << initial_candidate.rows() << " while expecting " << dims;
+    throw std::runtime_error(oss.str());
+  } 
+
+  // Store the required parameters in vectors
   std::vector<double> init_params(dims), lower_bounds(dims), upper_bounds(dims);
   for (int dim = 0; dim < dims; dim++) {
     double dim_min = getLimits()(dim, 0);
     double dim_max = getLimits()(dim, 1);
-    // Initial parameters are in the middle of the space
     init_params[dim] = initial_candidate(dim);
-    // Limits are also saved as vector<double>
     lower_bounds[dim] = dim_min;
     upper_bounds[dim] = dim_max;
   }
