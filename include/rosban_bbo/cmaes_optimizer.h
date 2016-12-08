@@ -39,6 +39,15 @@ private:
   /// Size of the history window for ftolerance
   /// negative values lead to default cmaes behavior
   int max_history;
+
+  /// Elitism reinject the best ever seen solution
+  /// 0: No elitism
+  /// 1: Reinject the best ever seen solution
+  /// 2: Reinject x0 as long as it is not improved upon
+  /// 3: Initial elitism on restart: restart if final solution is not the best
+  ///    ever seen solution and reinjects the best solution until population
+  ///    has better fitness
+  int elitism;
 };
 
 }

@@ -14,7 +14,8 @@ CMAESOptimizer::CMAESOptimizer()
     nb_restarts(1),
     population_size(-1),
     ftolerance(1e-10),
-    max_history(-1)
+    max_history(-1),
+    elitism(1)
 {
 }
 
@@ -62,7 +63,7 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   cma_params.set_quiet(quiet);
   cma_params.set_mt_feval(true);
   cma_params.set_str_algo("abipop");
-  cma_params.set_elitism(1);
+  cma_params.set_elitism(elitism);
   cma_params.set_restarts(nb_restarts);
   cma_params.set_max_fevals(nb_evaluations);
   if (nb_iterations > 0) cma_params.set_max_iter(nb_iterations);
@@ -100,6 +101,7 @@ void CMAESOptimizer::to_xml(std::ostream &out) const
   rosban_utils::xml_tools::write<int>   ("nb_restarts"    , nb_restarts    , out);
   rosban_utils::xml_tools::write<int>   ("population_size", population_size, out);
   rosban_utils::xml_tools::write<int>   ("max_history"    , max_history    , out);
+  rosban_utils::xml_tools::write<int>   ("elitism"        , elitism        , out);
   rosban_utils::xml_tools::write<double>("ftolerance"     , ftolerance     , out);
 }
 
@@ -111,6 +113,7 @@ void CMAESOptimizer::from_xml(TiXmlNode *node)
   rosban_utils::xml_tools::try_read<int>   (node, "nb_restarts"    , nb_restarts    );
   rosban_utils::xml_tools::try_read<int>   (node, "population_size", population_size);
   rosban_utils::xml_tools::try_read<int>   (node, "max_history"    , max_history    );
+  rosban_utils::xml_tools::try_read<int>   (node, "elitism"        , elitism        );
   rosban_utils::xml_tools::try_read<double>(node, "ftolerance"     , ftolerance     );
 }
 
