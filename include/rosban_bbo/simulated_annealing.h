@@ -30,6 +30,9 @@ private:
 
   /// Nb different set of parameters tested
   int nb_trials;
+
+  /// Is the training process spamming output ?
+  bool verbose;
 };
 
 }

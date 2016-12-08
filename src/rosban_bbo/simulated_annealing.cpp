@@ -9,7 +9,8 @@ namespace rosban_bbo
 
 SimulatedAnnealing::SimulatedAnnealing()
   : initial_temperature(100),
-    nb_trials(100)
+    nb_trials(100),
+    verbose(false)
 {}
 
 Eigen::VectorXd SimulatedAnnealing::train(RewardFunc & reward_sampler,
@@ -30,14 +31,33 @@ Eigen::VectorXd SimulatedAnnealing::train(RewardFunc & reward_sampler,
     Eigen::VectorXd new_state = sampleNeighbor(state, temperature, engine);
     double energy = -reward_sampler(new_state, engine);
     double delta_energy = energy - current_energy;
-    // If energy has been reduced, accept new state
+
+    if (verbose) {
+      std::cout << "SA: testing parameters set: trial " << trial << std::endl
+                << new_state.transpose() << std::endl
+                << "Energy: " << energy << std::endl;
+    }
+
+    // If energy has been reduced, accept new state and update energy
     if (delta_energy < 0) {
+      if (verbose) {
+        std::cout << "\tSample accepted" << std::endl;
+      }
       state = new_state;
+      current_energy = energy;
     }
     else {
       double p_accept = exp(-delta_energy / temperature);
-      if (distribution(*engine) > p_accept) {
+      if (verbose) {
+        std::cout << "Probability of acceptance: " << p_accept << std::endl;
+      }
+      if (distribution(*engine) < p_accept) {
+        if (verbose) {
+          std::cout << "\tAccepted" << std::endl;
+        }
+        // If state has been accepted update both, state and energy
         state = new_state;
+        current_energy = energy;
       }
     }
   }
@@ -46,7 +66,7 @@ Eigen::VectorXd SimulatedAnnealing::train(RewardFunc & reward_sampler,
 }
 
 double SimulatedAnnealing::getTemperature(int trial) const {
-  return trial * initial_temperature / nb_trials;
+  return (nb_trials - trial) * initial_temperature / nb_trials;
 }
 
 Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd & state,
@@ -82,11 +102,13 @@ std::string SimulatedAnnealing::class_name() const {
 void SimulatedAnnealing::to_xml(std::ostream &out) const {
   rosban_utils::xml_tools::write<int>   ("nb_trials"          , nb_trials          , out);
   rosban_utils::xml_tools::write<double>("initial_temperature", initial_temperature, out);
+  rosban_utils::xml_tools::write<bool>  ("verbose"            , verbose            , out);
 }
 
 void SimulatedAnnealing::from_xml(TiXmlNode *node) {
   rosban_utils::xml_tools::try_read<int>   (node, "nb_trials"          , nb_trials          );
   rosban_utils::xml_tools::try_read<double>(node, "initial_temperature", initial_temperature);
+  rosban_utils::xml_tools::try_read<bool>  (node, "verbose"            , verbose            );
 }
 
 
