@@ -2,6 +2,7 @@
 
 #include "rosban_bbo/cmaes_optimizer.h"
 #include "rosban_bbo/monte_carlo_optimizer.h"
+#include "rosban_bbo/simulated_annealing.h"
 
 namespace rosban_bbo
 {
@@ -12,6 +13,8 @@ OptimizerFactory::OptimizerFactory()
                   []() { return std::unique_ptr<Optimizer>(new MonteCarloOptimizer); });
   registerBuilder("CMAESOptimizer",
                   []() { return std::unique_ptr<Optimizer>(new CMAESOptimizer); });
+  registerBuilder("SimulatedAnnealing",
+                  []() { return std::unique_ptr<Optimizer>(new SimulatedAnnealing); });
 }
 
 }
