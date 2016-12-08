@@ -49,7 +49,7 @@ double SimulatedAnnealing::getTemperature(int trial) const {
   return trial * initial_temperature / nb_trials;
 }
 
-Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd state,
+Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd & state,
                                                    double temperature,
                                                    std::default_random_engine * engine) {
   const Eigen::MatrixXd & limits = getLimits();

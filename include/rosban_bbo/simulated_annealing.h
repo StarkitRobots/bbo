@@ -15,7 +15,7 @@ public:
   double getTemperature(int trial) const;
 
   /// Choose a neighbor of 'candidate' randomly according to temperature
-  Eigen::VectorXd sampleNeighbor(const Eigen::VectorXd state,
+  Eigen::VectorXd sampleNeighbor(const Eigen::VectorXd & state,
                                  double temperature,
                                  std::default_random_engine * engine);
 
