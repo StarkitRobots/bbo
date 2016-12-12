@@ -53,7 +53,7 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
 
 Eigen::MatrixXd CrossEntropy::getInitialCovariance() {
   Eigen::MatrixXd limits = getLimits();
-  Eigen::MatrixXd init_covar(limits.rows(), limits.rows());
+  Eigen::MatrixXd init_covar = Eigen::MatrixXd::Zero(limits.rows(), limits.rows());
   for (int dim = 0; dim < limits.rows(); dim++) {
     double amplitude = limits(dim,1) - limits(dim, 0);
     // In a normal distribution, 95% of the values are in:
