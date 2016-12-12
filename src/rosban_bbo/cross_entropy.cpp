@@ -46,7 +46,7 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
     // Updating mean and covariance matrix
     mean = best_samples.rowwise().mean();
     Eigen::MatrixXd centered = best_samples.colwise() - mean;
-    covar = (centered.adjoint() * centered) / double(best_samples.cols());
+    covar = (centered * centered.adjoint()) / double(best_samples.cols());
   }
   return mean;
 }
