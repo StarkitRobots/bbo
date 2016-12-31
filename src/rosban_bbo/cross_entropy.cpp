@@ -24,6 +24,7 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
 {
   Eigen::VectorXd mean = initial_candidate;
   Eigen::MatrixXd covar = getInitialCovariance();
+  Eigen::MatrixXd limits = getLimits();
 
   for (int generation = 0; generation < nb_generations; generation++) {
     // Getting samples of the generation
@@ -32,9 +33,15 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
     // Scoring samples
     std::vector<ScoredCandidate> candidates(population_size);
     for (int sample_id = 0; sample_id < population_size; sample_id++) {
-      //TODO: bound sample value
-      candidates[sample_id].first = samples.col(sample_id);
-      candidates[sample_id].second = reward_sampler(samples.col(sample_id), engine);
+      Eigen::VectorXd bounded_sample = samples.col(sample_id);
+      for (int dim = 0; dim < bounded_sample.rows(); dim++) {
+        double original = bounded_sample(dim);
+        double min = limits(dim, 0);
+        double max = limits(dim, 1);
+        bounded_sample(dim) = std::min(max,std::max(min,original));
+      }
+      candidates[sample_id].first = bounded_sample;
+      candidates[sample_id].second = reward_sampler(bounded_sample, engine);
     }
     // Sorting candidates
     std::sort(candidates.begin(), candidates.end(), candidateSort);
