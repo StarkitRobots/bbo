@@ -1,6 +1,7 @@
 #include "rosban_bbo/optimizer_factory.h"
 
 #include "rosban_bbo/cmaes_optimizer.h"
+#include "rosban_bbo/composite_optimizer.h"
 #include "rosban_bbo/cross_entropy.h"
 #include "rosban_bbo/monte_carlo_optimizer.h"
 #include "rosban_bbo/simulated_annealing.h"
@@ -14,6 +15,8 @@ OptimizerFactory::OptimizerFactory()
                   []() { return std::unique_ptr<Optimizer>(new MonteCarloOptimizer); });
   registerBuilder("CMAESOptimizer",
                   []() { return std::unique_ptr<Optimizer>(new CMAESOptimizer); });
+  registerBuilder("CompositeOptimizer",
+                  []() { return std::unique_ptr<Optimizer>(new CompositeOptimizer); });
   registerBuilder("CrossEntropy",
                   []() { return std::unique_ptr<Optimizer>(new CrossEntropy); });
   registerBuilder("SimulatedAnnealing",

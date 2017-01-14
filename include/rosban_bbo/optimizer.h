@@ -27,7 +27,7 @@ public:
                                 std::default_random_engine * engine) = 0;
 
 
-  void setLimits(const Eigen::MatrixXd & new_limits);
+  virtual void setLimits(const Eigen::MatrixXd & new_limits);
   const Eigen::MatrixXd & getLimits() const;
 private:
   Eigen::MatrixXd limits;
