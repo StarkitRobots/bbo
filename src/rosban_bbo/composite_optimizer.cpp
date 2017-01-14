@@ -76,7 +76,19 @@ void CompositeOptimizer::from_xml(TiXmlNode *node) {
   rosban_utils::xml_tools::try_read_vector<std::string>(node, "names", names);
   rosban_utils::xml_tools::try_read_vector<double>(node, "weights", weights);
   optimizers = OptimizerFactory().readVector(node, "optimizers");
-  //TODO: check number of weights/names with respect to optimizers
+  // Checking consistency of informations read
+  if (names.size() != 0 || names.size() != optimizers.size()) {
+    std::ostringstream oss;
+    oss << "CompositeOptimizer::from_xml: Invalid length for names "
+        << names.size() << " while 0 or " << optimizers.size() << " was expected";
+    throw std::logic_error(oss.str());
+  }
+  if (weights.size() != 0 || weights.size() != optimizers.size()) {
+    std::ostringstream oss;
+    oss << "CompositeOptimizer::from_xml: Invalid length for weights "
+        << weights.size() << " while 0 or " << optimizers.size() << " was expected";
+    throw std::logic_error(oss.str());
+  }
 }
 
 void CompositeOptimizer::setLimits(const Eigen::MatrixXd & new_limits) {
