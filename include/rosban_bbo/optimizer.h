@@ -26,6 +26,9 @@ public:
                                 const Eigen::VectorXd & initial_candidate,
                                 std::default_random_engine * engine) = 0;
 
+  /// Set the maximal number of calls to the reward function for the optimizer
+  virtual void setMaxCalls(int max_calls) = 0;
+
 
   virtual void setLimits(const Eigen::MatrixXd & new_limits);
   const Eigen::MatrixXd & getLimits() const;

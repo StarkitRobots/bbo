@@ -71,6 +71,17 @@ Eigen::MatrixXd CrossEntropy::getInitialCovariance() {
   return init_covar;
 }
 
+void CrossEntropy::setMaxCalls(int max_calls) {
+  population_size = (int)(max_calls / nb_generations);
+  best_set_size = std::max(2,(int)(population_size/10));
+  if (best_set_size >= population_size) {
+    throw std::logic_error("CrossEntropy::setMaxCalls: max_calls is too low");
+  }
+  std::cout << "CE: New population size, best_set_size: "
+            << population_size << ", " << best_set_size << std::endl;
+}
+
+
 std::string CrossEntropy::class_name() const {
   return "CrossEntropy";
 }

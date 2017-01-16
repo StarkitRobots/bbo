@@ -17,6 +17,8 @@ public:
   virtual void to_xml(std::ostream &out) const override;
   virtual void from_xml(TiXmlNode *node) override;
 
+  virtual void setMaxCalls(int max_calls) override;
+
   virtual void setLimits(const Eigen::MatrixXd & new_limits) override;
 
 private:

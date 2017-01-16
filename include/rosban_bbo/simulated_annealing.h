@@ -19,6 +19,8 @@ public:
                                  double temperature,
                                  std::default_random_engine * engine);
 
+  virtual void setMaxCalls(int max_calls) override;
+
   virtual std::string class_name() const;
   virtual void to_xml(std::ostream &out) const override;
   virtual void from_xml(TiXmlNode *node) override;

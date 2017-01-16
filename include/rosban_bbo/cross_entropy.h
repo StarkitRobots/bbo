@@ -12,6 +12,9 @@ public:
                                 const Eigen::VectorXd & initial_candidate,
                                 std::default_random_engine * engine);
 
+  /// Does not influence the number of generations, best_set_size is always 10% of pop_size
+  virtual void setMaxCalls(int max_calls) override;
+
   /// Initial covariance matrix is built upon the parameters limits
   Eigen::MatrixXd getInitialCovariance();
 

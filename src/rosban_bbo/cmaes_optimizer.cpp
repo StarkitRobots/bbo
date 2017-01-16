@@ -88,6 +88,15 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   return best_sol;
 }
 
+void CMAESOptimizer::setMaxCalls(int max_calls) {
+  nb_evaluations = max_calls / (nb_restarts + 1);
+  // Check for errors
+  if (population_size > nb_evaluations) {
+    throw std::logic_error("Number of evaluations is smaller than population size");
+  }
+  std::cout << "CMAES: New nb_evaluations: " << nb_evaluations << std::endl;
+}
+
 std::string CMAESOptimizer::class_name() const
 {
   return "CMAESOptimizer";

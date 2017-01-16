@@ -44,6 +44,10 @@ Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc & reward_sampler,
   return best_candidate;
 }
 
+void MonteCarloOptimizer::setMaxCalls(int max_calls) {
+  nb_trials = max_calls;
+}
+
 std::string MonteCarloOptimizer::class_name() const {
   return "MonteCarloOptimizer";
 }

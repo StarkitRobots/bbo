@@ -91,6 +91,19 @@ void CompositeOptimizer::from_xml(TiXmlNode *node) {
   }
 }
 
+void CompositeOptimizer::setMaxCalls(int max_calls) {
+  // If all optimizers are used, then max_calls has to be reduced
+  if (weights.size() == 0) {
+    // Part of the calls are required for validation
+    max_calls = max_calls - validation_trials * optimizers.size();
+    // All optimizers are given the same number of calls
+    max_calls = (int)(max_calls / optimizers.size());
+  }
+  for (size_t idx = 0; idx < optimizers.size(); idx++) {
+    optimizers[idx]->setMaxCalls(max_calls);
+  }
+}
+
 void CompositeOptimizer::setLimits(const Eigen::MatrixXd & new_limits) {
   Optimizer::setLimits(new_limits);
   for (unsigned int i = 0; i < optimizers.size(); i++) {
