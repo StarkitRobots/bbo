@@ -54,6 +54,7 @@ std::string PartialOptimizer::class_name() const {
 }
 
 void PartialOptimizer::to_xml(std::ostream &out) const {
+  (void)out;
   throw std::logic_error("PartialOptimizer::to_xml: not implemented yet");
 }
 
