@@ -42,15 +42,18 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
       TimeStamp start = TimeStamp::now();
       Eigen::VectorXd sol = optimizers[idx]->train(reward, initial_candidate, engine);
       TimeStamp end = TimeStamp::now();
+      double avg_reward = 0;
+      for (int i = 0; i < validation_trials; i++) {
+        avg_reward += reward(sol, engine);
+      }
+      avg_reward /= validation_trials;
       std::cout << "Optimization with " << curr_name << ": "
                 << diffMs(start,end) << " ms" << std::endl;
-      double curr_reward = 0;
-      for (int i = 0; i < validation_trials; i++) {
-        curr_reward += reward(sol, engine) / optimizers.size();
-      }
-      if (curr_reward > best_reward) {
+      std::cout << "-> Sol : " << sol.transpose() << std::endl;
+      std::cout << "-> Average reward : " << avg_reward << std::endl;
+      if (avg_reward > best_reward) {
         best_sol = sol;
-        best_reward = curr_reward;
+        best_reward = avg_reward;
         best_name = curr_name;
       }
     }
