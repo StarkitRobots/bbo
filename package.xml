@@ -14,8 +14,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>rosban_utils</build_depend> <!-- git@bitbucket.org:rhoban/rosban_utils.git -->
-  <build_depend>rosban_random</build_depend> <!-- git@bitbucket.org:rhoban/rosban_random.git -->
+  <build_depend>rosban_utils</build_depend> <!-- rhoban/rosban_utils.git -->
+  <build_depend>rosban_random</build_depend> <!-- rhoban/rosban_random.git -->
   <build_depend>libcmaes</build_depend> <!-- rhobandeps/libcmaes.git -->
 
   <run_depend>rosban_utils</run_depend>
