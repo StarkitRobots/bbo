@@ -28,8 +28,8 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
 
   for (int generation = 0; generation < nb_generations; generation++) {
     // Getting samples of the generation
-    rosban_random::MultiVariateGaussian distrib(mean, covar);
-    Eigen::MatrixXd samples = distrib.getSamples(population_size, *engine);
+    rosban_random::MultivariateGaussian distrib(mean, covar);
+    Eigen::MatrixXd samples = distrib.getSamples(population_size, engine);
     // Scoring samples
     std::vector<ScoredCandidate> candidates(population_size);
     for (int sample_id = 0; sample_id < population_size; sample_id++) {
