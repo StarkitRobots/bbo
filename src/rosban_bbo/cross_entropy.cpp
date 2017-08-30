@@ -78,8 +78,8 @@ void CrossEntropy::setMaxCalls(int max_calls) {
   if (best_set_size >= population_size) {
     throw std::logic_error("CrossEntropy::setMaxCalls: max_calls is too low");
   }
-  std::cout << "CE: New population size, best_set_size: "
-            << population_size << ", " << best_set_size << std::endl;
+  //std::cout << "CE: New population size, best_set_size: "
+  //          << population_size << ", " << best_set_size << std::endl;
 }
 
 

@@ -31,6 +31,9 @@ private:
 
   /// Number of trials used for validation
   int validation_trials;
+
+  /// Verbosity of output
+  int debug_level;
 };
 
 }

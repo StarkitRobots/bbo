@@ -97,7 +97,7 @@ Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd & state
 
 void SimulatedAnnealing::setMaxCalls(int max_calls) {
   nb_trials = max_calls;
-  std::cout << "SA: new nb_trials: " << nb_trials << std::endl;
+  //std::cout << "SA: new nb_trials: " << nb_trials << std::endl;
 }
 
 std::string SimulatedAnnealing::class_name() const {

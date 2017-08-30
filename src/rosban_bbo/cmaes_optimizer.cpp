@@ -96,7 +96,7 @@ void CMAESOptimizer::setMaxCalls(int max_calls) {
     population_size = nb_evaluations / 2;
     //throw std::logic_error("Number of evaluations is smaller than population size");
   }
-  std::cout << "CMAES: New nb_evaluations: " << nb_evaluations << std::endl;
+  //std::cout << "CMAES: New nb_evaluations: " << nb_evaluations << std::endl;
 }
 
 std::string CMAESOptimizer::class_name() const

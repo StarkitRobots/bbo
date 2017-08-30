@@ -11,7 +11,7 @@ namespace rosban_bbo
 {
 
 CompositeOptimizer::CompositeOptimizer()
-  : validation_trials(1)
+  : validation_trials(1), debug_level(0)
 {}
 
 Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
@@ -27,7 +27,9 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
     if (names.size() > optimizer_idx) {
       name = names[optimizer_idx] ;
     }
-    std::cout << "Optimizing with " << name << std::endl;
+    if (debug_level > 0) {
+      std::cout << "Optimizing with " << name << std::endl;
+    }
     return optimizers[optimizer_idx]->train(reward, initial_candidate, engine);
   }
   else {
@@ -47,17 +49,21 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
         avg_reward += reward(sol, engine);
       }
       avg_reward /= validation_trials;
-      std::cout << "Optimization with " << curr_name << ": "
-                << diffMs(start,end) << " ms" << std::endl;
-      std::cout << "-> Sol : " << sol.transpose() << std::endl;
-      std::cout << "-> Average reward : " << avg_reward << std::endl;
+      if (debug_level > 0 ) {
+        std::cout << "Optimization with " << curr_name << ": "
+                  << diffMs(start,end) << " ms" << std::endl;
+        std::cout << "-> Sol : " << sol.transpose() << std::endl;
+        std::cout << "-> Average reward : " << avg_reward << std::endl;
+      }
       if (avg_reward > best_reward) {
         best_sol = sol;
         best_reward = avg_reward;
         best_name = curr_name;
       }
     }
-    std::cout << "Best optimizer: " << best_name << std::endl;
+    if (debug_level > 0) {
+      std::cout << "Best optimizer: " << best_name << std::endl;
+    }
     return best_sol;
   }
 }
@@ -67,6 +73,7 @@ std::string CompositeOptimizer::class_name() const {
 
 void CompositeOptimizer::to_xml(std::ostream &out) const {
   rosban_utils::xml_tools::write<int>("validation_trials", validation_trials, out);
+  rosban_utils::xml_tools::write<int>("debug_level", debug_level, out);
   rosban_utils::xml_tools::write_vector<std::string>("names"  , names  , out);
   rosban_utils::xml_tools::write_vector<double>     ("weights", weights, out);
   //TODO write optimizers
@@ -76,6 +83,7 @@ void CompositeOptimizer::to_xml(std::ostream &out) const {
 void CompositeOptimizer::from_xml(TiXmlNode *node) {
   std::cout << "Parsing CompositeOptimizer" << std::endl;
   rosban_utils::xml_tools::try_read<int>(node, "validation_trials", validation_trials);
+  rosban_utils::xml_tools::try_read<int>(node, "debug_level", debug_level);
   rosban_utils::xml_tools::try_read_vector<std::string>(node, "names", names);
   rosban_utils::xml_tools::try_read_vector<double>(node, "weights", weights);
   optimizers = OptimizerFactory().readVector(node, "optimizers");
@@ -103,7 +111,7 @@ void CompositeOptimizer::setMaxCalls(int max_calls) {
     max_calls = (int)(max_calls / optimizers.size());
   }
   for (size_t idx = 0; idx < optimizers.size(); idx++) {
-    optimizers[idx]->setMaxCalls(max_calls);
+    optimizers[idx]->setMaxCalls(max_calls / optimizers.size());
   }
 }
 
