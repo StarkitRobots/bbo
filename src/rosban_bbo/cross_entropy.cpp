@@ -2,8 +2,6 @@
 
 #include "rosban_random/multivariate_gaussian.h"
 
-#include "rosban_utils/xml_tools.h"
-
 namespace rosban_bbo
 {
 
@@ -83,20 +81,23 @@ void CrossEntropy::setMaxCalls(int max_calls) {
 }
 
 
-std::string CrossEntropy::class_name() const {
+std::string CrossEntropy::getClassName() const {
   return "CrossEntropy";
 }
 
-void CrossEntropy::to_xml(std::ostream &out) const {
-  rosban_utils::xml_tools::write<int>("nb_generations" , nb_generations , out);
-  rosban_utils::xml_tools::write<int>("population_size", population_size, out);
-  rosban_utils::xml_tools::write<int>("best_set_size"  , best_set_size  , out);
+Json::Value CrossEntropy::toJson() const {
+  Json::Value v;
+  v["nb_generations" ] = nb_generations ;
+  v["population_size"] = population_size;
+  v["best_set_size"  ] = best_set_size  ;
+  return v;
 }
 
-void CrossEntropy::from_xml(TiXmlNode *node) {
-  rosban_utils::xml_tools::try_read<int>(node, "nb_generations" , nb_generations );
-  rosban_utils::xml_tools::try_read<int>(node, "population_size", population_size);
-  rosban_utils::xml_tools::try_read<int>(node, "best_set_size"  , best_set_size  );
+void CrossEntropy::fromJson(const Json::Value & v, const std::string & dir_name) {
+  (void)dir_name;
+  rhoban_utils::tryRead(v, "nb_generations" , &nb_generations );
+  rhoban_utils::tryRead(v, "population_size", &population_size);
+  rhoban_utils::tryRead(v, "best_set_size"  , &best_set_size  );
 }
 
 

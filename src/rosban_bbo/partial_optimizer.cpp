@@ -3,9 +3,9 @@
 #include "rosban_bbo/optimizer_factory.h"
 
 #include "rosban_random/tools.h"
-#include "rosban_utils/time_stamp.h"
+#include "rhoban_utils/timing/time_stamp.h"
 
-using rosban_utils::TimeStamp;
+using rhoban_utils::TimeStamp;
 
 namespace rosban_bbo
 {
@@ -49,22 +49,26 @@ Eigen::VectorXd PartialOptimizer::train(RewardFunc & reward,
   }
   return best_params;
 }
-std::string PartialOptimizer::class_name() const {
-  return "PartialOptimizer";
-}
-
-void PartialOptimizer::to_xml(std::ostream &out) const {
-  (void)out;
-  throw std::logic_error("PartialOptimizer::to_xml: not implemented yet");
-}
-
-void PartialOptimizer::from_xml(TiXmlNode *node) {
-  rosban_utils::xml_tools::try_read<double>(node, "ratio_used", ratio_used);
-  optimizer = OptimizerFactory().read(node, "optimizer");
-}
 
 void PartialOptimizer::setMaxCalls(int max_calls) {
   optimizer->setMaxCalls(max_calls);
+}
+
+std::string PartialOptimizer::getClassName() const {
+  return "PartialOptimizer";
+}
+
+Json::Value PartialOptimizer::toJson() const {
+  Json::Value v;
+  v["ratio_used"] = ratio_used;
+  v["optimizer"] = optimizer->toFactoryJson();
+  return v;
+}
+
+void PartialOptimizer::fromJson(const Json::Value & v, const std::string & dir_name) {
+  (void) dir_name;
+  rhoban_utils::tryRead(v, "ratio_used", &ratio_used);
+  optimizer = OptimizerFactory().read(v, "optimizer",dir_name);
 }
 
 }

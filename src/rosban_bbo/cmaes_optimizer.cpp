@@ -99,33 +99,37 @@ void CMAESOptimizer::setMaxCalls(int max_calls) {
   //std::cout << "CMAES: New nb_evaluations: " << nb_evaluations << std::endl;
 }
 
-std::string CMAESOptimizer::class_name() const
+std::string CMAESOptimizer::getClassName() const
 {
   return "CMAESOptimizer";
 }
 
-void CMAESOptimizer::to_xml(std::ostream &out) const
+Json::Value CMAESOptimizer::toJson() const
 {
-  rosban_utils::xml_tools::write<bool>  ("quiet"          , quiet          , out);
-  rosban_utils::xml_tools::write<int>   ("nb_iterations"  , nb_iterations  , out);
-  rosban_utils::xml_tools::write<int>   ("nb_evaluations" , nb_evaluations , out);
-  rosban_utils::xml_tools::write<int>   ("nb_restarts"    , nb_restarts    , out);
-  rosban_utils::xml_tools::write<int>   ("population_size", population_size, out);
-  rosban_utils::xml_tools::write<int>   ("max_history"    , max_history    , out);
-  rosban_utils::xml_tools::write<int>   ("elitism"        , elitism        , out);
-  rosban_utils::xml_tools::write<double>("ftolerance"     , ftolerance     , out);
+  Json::Value v;
+  v["quiet"          ] = quiet          ;
+  v["nb_iterations"  ] = nb_iterations  ;
+  v["nb_evaluations" ] = nb_evaluations ;
+  v["nb_restarts"    ] = nb_restarts    ;
+  v["population_size"] = population_size;
+  v["max_history"    ] = max_history    ;
+  v["elitism"        ] = elitism        ;
+  v["ftolerance"     ] = ftolerance     ;
+  return v;
 }
 
-void CMAESOptimizer::from_xml(TiXmlNode *node)
+void CMAESOptimizer::fromJson(const Json::Value & v,
+                              const std::string & dir_name)
 {
-  rosban_utils::xml_tools::try_read<bool>  (node, "quiet"          , quiet          );
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_iterations"  , nb_iterations  );
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_evaluations" , nb_evaluations );
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_restarts"    , nb_restarts    );
-  rosban_utils::xml_tools::try_read<int>   (node, "population_size", population_size);
-  rosban_utils::xml_tools::try_read<int>   (node, "max_history"    , max_history    );
-  rosban_utils::xml_tools::try_read<int>   (node, "elitism"        , elitism        );
-  rosban_utils::xml_tools::try_read<double>(node, "ftolerance"     , ftolerance     );
+  (void)dir_name;
+  rhoban_utils::tryRead<bool>  (v, "quiet"          , &quiet);
+  rhoban_utils::tryRead<int>   (v, "nb_iterations"  , &nb_iterations  );
+  rhoban_utils::tryRead<int>   (v, "nb_evaluations" , &nb_evaluations );
+  rhoban_utils::tryRead<int>   (v, "nb_restarts"    , &nb_restarts    );
+  rhoban_utils::tryRead<int>   (v, "population_size", &population_size);
+  rhoban_utils::tryRead<int>   (v, "max_history"    , &max_history    );
+  rhoban_utils::tryRead<int>   (v, "elitism"        , &elitism        );
+  rhoban_utils::tryRead<double>(v, "ftolerance"     , &ftolerance     );
 }
 
 

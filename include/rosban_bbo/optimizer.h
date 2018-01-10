@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rosban_utils/serializable.h"
+#include "rhoban_utils/serialization/json_serializable.h"
 
 #include <Eigen/Core>
 
@@ -9,7 +9,7 @@
 namespace rosban_bbo
 {
 
-class Optimizer : public rosban_utils::Serializable {
+class Optimizer : public rhoban_utils::JsonSerializable {
 public:
 
   /// RewardFunc are functions (eventually stochastic) returning the sampled

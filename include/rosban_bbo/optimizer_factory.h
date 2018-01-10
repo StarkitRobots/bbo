@@ -1,11 +1,11 @@
 #include "rosban_bbo/optimizer.h"
 
-#include "rosban_utils/factory.h"
+#include "rhoban_utils/serialization/factory.h"
 
 namespace rosban_bbo
 {
 
-class OptimizerFactory : public rosban_utils::Factory<Optimizer> {
+class OptimizerFactory : public rhoban_utils::Factory<Optimizer> {
 public:
   OptimizerFactory();
 };

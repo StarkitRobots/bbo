@@ -2,8 +2,6 @@
 
 #include "rosban_random/tools.h"
 
-#include "rosban_utils/xml_tools.h"
-
 namespace rosban_bbo
 {
 
@@ -48,15 +46,19 @@ void MonteCarloOptimizer::setMaxCalls(int max_calls) {
   nb_trials = max_calls;
 }
 
-std::string MonteCarloOptimizer::class_name() const {
+std::string MonteCarloOptimizer::getClassName() const {
   return "MonteCarloOptimizer";
 }
 
-void MonteCarloOptimizer::to_xml(std::ostream &out) const {
-  rosban_utils::xml_tools::write("nb_trials", nb_trials, out);
+Json::Value MonteCarloOptimizer::toJson() const {
+  Json::Value v;
+  v["nb trials"] = nb_trials;
+  return v;
 }
-void MonteCarloOptimizer::from_xml(TiXmlNode *node) {
-  rosban_utils::xml_tools::try_read(node, "nb_trials", nb_trials);
+
+void MonteCarloOptimizer::fromJson(const Json::Value & v, const std::string & dir_name) {
+  (void) dir_name;
+  rhoban_utils::tryRead(v, "nb_trials", &nb_trials);
 }
 
 

@@ -3,9 +3,9 @@
 #include "rosban_bbo/optimizer_factory.h"
 
 #include "rosban_random/tools.h"
-#include "rosban_utils/time_stamp.h"
+#include "rhoban_utils/timing/time_stamp.h"
 
-using rosban_utils::TimeStamp;
+using rhoban_utils::TimeStamp;
 
 namespace rosban_bbo
 {
@@ -23,7 +23,7 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
   // If weights have been provided choose an optimizer randomly
   if (weights.size() != 0) {
     size_t optimizer_idx = rosban_random::sampleWeightedIndices(weights, 1, engine)[0];
-    std::string name = optimizers[optimizer_idx]->class_name();
+    std::string name = optimizers[optimizer_idx]->getClassName();
     if (names.size() > optimizer_idx) {
       name = names[optimizer_idx] ;
     }
@@ -37,7 +37,7 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
     Eigen::VectorXd best_sol;
     std::string best_name;
     for (unsigned int idx = 0; idx < optimizers.size(); idx++) {
-      std::string curr_name = optimizers[idx]->class_name();
+      std::string curr_name = optimizers[idx]->getClassName();
       if (names.size() > idx) {
         curr_name = names[idx];
       }
@@ -67,26 +67,29 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
     return best_sol;
   }
 }
-std::string CompositeOptimizer::class_name() const {
+std::string CompositeOptimizer::getClassName() const {
   return "CompositeOptimizer";
 }
 
-void CompositeOptimizer::to_xml(std::ostream &out) const {
-  rosban_utils::xml_tools::write<int>("validation_trials", validation_trials, out);
-  rosban_utils::xml_tools::write<int>("debug_level", debug_level, out);
-  rosban_utils::xml_tools::write_vector<std::string>("names"  , names  , out);
-  rosban_utils::xml_tools::write_vector<double>     ("weights", weights, out);
-  //TODO write optimizers
-  throw std::logic_error("CompositeOptimizer::to_xml: not fully implemented yet");
+Json::Value CompositeOptimizer::toJson() const {
+  Json::Value v;
+  v["validation_trials"] = validation_trials;
+  v["debug_level"]       = debug_level;
+  v["names"]   = rhoban_utils::vector2Json(names);
+  v["weights"] = rhoban_utils::vector2Json(weights);
+  v["optimizers"] = Json::Value();
+  for (Json::ArrayIndex idx = 0; idx < optimizers.size(); idx++) {
+    v["optimizers"][idx] = optimizers[idx]->toFactoryJson();
+  }
+  return v;
 }
 
-void CompositeOptimizer::from_xml(TiXmlNode *node) {
-  std::cout << "Parsing CompositeOptimizer" << std::endl;
-  rosban_utils::xml_tools::try_read<int>(node, "validation_trials", validation_trials);
-  rosban_utils::xml_tools::try_read<int>(node, "debug_level", debug_level);
-  rosban_utils::xml_tools::try_read_vector<std::string>(node, "names", names);
-  rosban_utils::xml_tools::try_read_vector<double>(node, "weights", weights);
-  optimizers = OptimizerFactory().readVector(node, "optimizers");
+void CompositeOptimizer::fromJson(const Json::Value & v, const std::string & dir_name) {
+  rhoban_utils::tryRead(v, "validation_trials", &validation_trials);
+  rhoban_utils::tryRead(v, "debug_level", &debug_level);
+  rhoban_utils::tryReadVector(v, "names", &names);
+  rhoban_utils::tryReadVector(v, "weights", &weights);
+  optimizers = OptimizerFactory().readVector(v, "optimizers", dir_name);
   // Checking consistency of informations read
   if (names.size() != 0 && names.size() != optimizers.size()) {
     std::ostringstream oss;

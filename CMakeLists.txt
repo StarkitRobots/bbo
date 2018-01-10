@@ -3,6 +3,7 @@ project(rosban_bbo)
 
 find_package(catkin REQUIRED COMPONENTS
   rhoban_utils
+  rosban_random
   libcmaes
 )
 
@@ -11,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++11 -fopenmp")
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rosban_bbo
-  CATKIN_DEPENDS rhoban_utils libcmaes
+  CATKIN_DEPENDS rhoban_utils rosban_random libcmaes
 )
 
 ###########

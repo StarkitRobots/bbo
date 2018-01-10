@@ -2,7 +2,7 @@
 
 #include "rosban_random/tools.h"
 
-#include "rosban_utils/xml_tools.h"
+#include <iostream>
 
 namespace rosban_bbo
 {
@@ -100,20 +100,23 @@ void SimulatedAnnealing::setMaxCalls(int max_calls) {
   //std::cout << "SA: new nb_trials: " << nb_trials << std::endl;
 }
 
-std::string SimulatedAnnealing::class_name() const {
+std::string SimulatedAnnealing::getClassName() const {
   return "SimulatedAnnealing";
 }
 
-void SimulatedAnnealing::to_xml(std::ostream &out) const {
-  rosban_utils::xml_tools::write<int>   ("nb_trials"          , nb_trials          , out);
-  rosban_utils::xml_tools::write<double>("initial_temperature", initial_temperature, out);
-  rosban_utils::xml_tools::write<bool>  ("verbose"            , verbose            , out);
+Json::Value SimulatedAnnealing::toJson() const {
+  Json::Value v;
+  v["nb_trials"          ] = nb_trials          ;
+  v["initial_temperature"] = initial_temperature;
+  v["verbose"            ] = verbose            ;
+  return v;
 }
 
-void SimulatedAnnealing::from_xml(TiXmlNode *node) {
-  rosban_utils::xml_tools::try_read<int>   (node, "nb_trials"          , nb_trials          );
-  rosban_utils::xml_tools::try_read<double>(node, "initial_temperature", initial_temperature);
-  rosban_utils::xml_tools::try_read<bool>  (node, "verbose"            , verbose            );
+void SimulatedAnnealing::fromJson(const Json::Value & v, const std::string & dir_name) {
+  (void) dir_name;
+  rhoban_utils::tryRead(v, "nb_trials"          , &nb_trials          );
+  rhoban_utils::tryRead(v, "initial_temperature", &initial_temperature);
+  rhoban_utils::tryRead(v, "verbose"            , &verbose            );
 }
 
 
