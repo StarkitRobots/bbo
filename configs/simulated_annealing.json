@@ -1,0 +1,7 @@
+{
+    "class name" : "SimulatedAnnealing",
+    "content" : {
+        "nb_trials" : 50000,
+        "initial_temperature" : 3
+    }
+}

@@ -13,7 +13,9 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES rosban_bbo
   CATKIN_DEPENDS rhoban_utils rosban_random libcmaes
-)
+  )
+
+option(ROSBAN_BBO_BUILD_EXAMPLES OFF)
 
 ###########
 ## Build ##
@@ -48,5 +50,10 @@ endforeach (DIRECTORY)
 add_library(rosban_bbo ${ALL_SOURCES} )
 target_link_libraries(rosban_bbo ${catkin_LIBRARIES})
 
-add_executable(test_cmaes_limits src/test_cmaes_limits.cpp)
-target_link_libraries(test_cmaes_limits ${catkin_LIBRARIES})
+if (ROSBAN_BBO_BUILD_EXAMPLES)
+  add_executable(bbo_example examples/bbo_example.cpp)
+  target_link_libraries(bbo_example rosban_bbo ${catkin_LIBRARIES})
+
+  add_executable(test_cmaes_limits examples/test_cmaes_limits.cpp)
+  target_link_libraries(test_cmaes_limits rosban_bbo ${catkin_LIBRARIES})
+endif()
