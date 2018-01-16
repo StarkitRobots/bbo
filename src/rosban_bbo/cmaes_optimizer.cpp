@@ -122,14 +122,14 @@ void CMAESOptimizer::fromJson(const Json::Value & v,
                               const std::string & dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead<bool>  (v, "quiet"          , &quiet);
-  rhoban_utils::tryRead<int>   (v, "nb_iterations"  , &nb_iterations  );
-  rhoban_utils::tryRead<int>   (v, "nb_evaluations" , &nb_evaluations );
-  rhoban_utils::tryRead<int>   (v, "nb_restarts"    , &nb_restarts    );
-  rhoban_utils::tryRead<int>   (v, "population_size", &population_size);
-  rhoban_utils::tryRead<int>   (v, "max_history"    , &max_history    );
-  rhoban_utils::tryRead<int>   (v, "elitism"        , &elitism        );
-  rhoban_utils::tryRead<double>(v, "ftolerance"     , &ftolerance     );
+  rhoban_utils::tryRead(v, "quiet"          , &quiet);
+  rhoban_utils::tryRead(v, "nb_iterations"  , &nb_iterations  );
+  rhoban_utils::tryRead(v, "nb_evaluations" , &nb_evaluations );
+  rhoban_utils::tryRead(v, "nb_restarts"    , &nb_restarts    );
+  rhoban_utils::tryRead(v, "population_size", &population_size);
+  rhoban_utils::tryRead(v, "max_history"    , &max_history    );
+  rhoban_utils::tryRead(v, "elitism"        , &elitism        );
+  rhoban_utils::tryRead(v, "ftolerance"     , &ftolerance     );
 }
 
 
