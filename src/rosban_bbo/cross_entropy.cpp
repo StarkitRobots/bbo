@@ -1,6 +1,6 @@
 #include "rosban_bbo/cross_entropy.h"
 
-#include "rosban_random/multivariate_gaussian.h"
+#include "rhoban_random/multivariate_gaussian.h"
 
 namespace rosban_bbo
 {
@@ -26,7 +26,7 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
 
   for (int generation = 0; generation < nb_generations; generation++) {
     // Getting samples of the generation
-    rosban_random::MultivariateGaussian distrib(mean, covar);
+    rhoban_random::MultivariateGaussian distrib(mean, covar);
     Eigen::MatrixXd samples = distrib.getSamples(population_size, engine);
     // Scoring samples
     std::vector<ScoredCandidate> candidates(population_size);

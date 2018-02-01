@@ -1,6 +1,6 @@
 #include "rosban_bbo/optimizer_factory.h"
 
-#include "rosban_random/tools.h"
+#include "rhoban_random/tools.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
   optimizer->setLimits(param_space);
 
   // Optimizing
-  std::default_random_engine * engine = rosban_random::newRandomEngine();
+  std::default_random_engine * engine = rhoban_random::newRandomEngine();
   Eigen::VectorXd best_params = optimizer->train(reward_function, engine);
 
   std::cout << "Best params: " << best_params.transpose() << std::endl;

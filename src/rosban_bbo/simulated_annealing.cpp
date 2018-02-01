@@ -1,6 +1,6 @@
 #include "rosban_bbo/simulated_annealing.h"
 
-#include "rosban_random/tools.h"
+#include "rhoban_random/tools.h"
 
 #include <iostream>
 
@@ -81,7 +81,7 @@ Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd & state
   delta_limits.col(0) = -amplitude;
   delta_limits.col(1) = amplitude;
 
-  Eigen::VectorXd delta = rosban_random::getUniformSamplesMatrix(delta_limits,
+  Eigen::VectorXd delta = rhoban_random::getUniformSamplesMatrix(delta_limits,
                                                                  1, engine);
   Eigen::VectorXd neighbor = state + delta;
 

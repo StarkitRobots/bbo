@@ -1,6 +1,6 @@
 #include "rosban_bbo/monte_carlo_optimizer.h"
 
-#include "rosban_random/tools.h"
+#include "rhoban_random/tools.h"
 
 namespace rosban_bbo
 {
@@ -18,7 +18,7 @@ Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc & reward_sampler,
 
   // Sampling candidates
   std::vector<Eigen::VectorXd> candidates;
-  candidates = rosban_random::getUniformSamples(getLimits(),
+  candidates = rhoban_random::getUniformSamples(getLimits(),
                                                 nb_trials,
                                                 engine);
 

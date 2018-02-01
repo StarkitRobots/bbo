@@ -2,7 +2,7 @@
 
 #include "rosban_bbo/optimizer_factory.h"
 
-#include "rosban_random/tools.h"
+#include "rhoban_random/tools.h"
 #include "rhoban_utils/timing/time_stamp.h"
 
 using rhoban_utils::TimeStamp;
@@ -22,7 +22,7 @@ Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
   }
   // If weights have been provided choose an optimizer randomly
   if (weights.size() != 0) {
-    size_t optimizer_idx = rosban_random::sampleWeightedIndices(weights, 1, engine)[0];
+    size_t optimizer_idx = rhoban_random::sampleWeightedIndices(weights, 1, engine)[0];
     std::string name = optimizers[optimizer_idx]->getClassName();
     if (names.size() > optimizer_idx) {
       name = names[optimizer_idx] ;

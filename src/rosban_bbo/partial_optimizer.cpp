@@ -2,7 +2,7 @@
 
 #include "rosban_bbo/optimizer_factory.h"
 
-#include "rosban_random/tools.h"
+#include "rhoban_random/tools.h"
 #include "rhoban_utils/timing/time_stamp.h"
 
 using rhoban_utils::TimeStamp;
@@ -19,7 +19,7 @@ Eigen::VectorXd PartialOptimizer::train(RewardFunc & reward,
                                           std::default_random_engine * engine) {
   int base_dims = getLimits().rows();
   int nb_dims_used = std::max(1, (int)(base_dims * ratio_used));
-  std::vector<size_t> dims_used = rosban_random::getKDistinctFromN(nb_dims_used, base_dims, engine);
+  std::vector<size_t> dims_used = rhoban_random::getKDistinctFromN(nb_dims_used, base_dims, engine);
   // Preparing new reward function
   RewardFunc hacked_reward =
     [&]
