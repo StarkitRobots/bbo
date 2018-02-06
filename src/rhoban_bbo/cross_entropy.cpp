@@ -1,8 +1,8 @@
-#include "rosban_bbo/cross_entropy.h"
+#include "rhoban_bbo/cross_entropy.h"
 
 #include "rhoban_random/multivariate_gaussian.h"
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 bool candidateSort(const CrossEntropy::ScoredCandidate & c1,

@@ -6,7 +6,7 @@
 
 #include <random>
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 class Optimizer : public rhoban_utils::JsonSerializable {

@@ -1,13 +1,13 @@
-#include "rosban_bbo/optimizer_factory.h"
+#include "rhoban_bbo/optimizer_factory.h"
 
-#include "rosban_bbo/cmaes_optimizer.h"
-#include "rosban_bbo/composite_optimizer.h"
-#include "rosban_bbo/cross_entropy.h"
-#include "rosban_bbo/monte_carlo_optimizer.h"
-#include "rosban_bbo/partial_optimizer.h"
-#include "rosban_bbo/simulated_annealing.h"
+#include "rhoban_bbo/cmaes_optimizer.h"
+#include "rhoban_bbo/composite_optimizer.h"
+#include "rhoban_bbo/cross_entropy.h"
+#include "rhoban_bbo/monte_carlo_optimizer.h"
+#include "rhoban_bbo/partial_optimizer.h"
+#include "rhoban_bbo/simulated_annealing.h"
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 OptimizerFactory::OptimizerFactory()

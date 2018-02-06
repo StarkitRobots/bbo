@@ -1,8 +1,8 @@
-#include "rosban_bbo/optimizer.h"
+#include "rhoban_bbo/optimizer.h"
 
 #include <memory>
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 class CompositeOptimizer : public Optimizer {

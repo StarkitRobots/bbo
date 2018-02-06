@@ -1,4 +1,4 @@
-#include "rosban_bbo/optimizer_factory.h"
+#include "rhoban_bbo/optimizer_factory.h"
 
 #include "rhoban_random/tools.h"
 
@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
   
   // A simple function to optimize
   double expected_optimum = 1;
-  rosban_bbo::Optimizer::RewardFunc reward_function = [expected_optimum]
+  rhoban_bbo::Optimizer::RewardFunc reward_function = [expected_optimum]
     (const Eigen::VectorXd & params,std::default_random_engine * engine) -> double
     {
       std::normal_distribution<double> noise_distrib(0,1);
@@ -31,8 +31,8 @@ int main(int argc, char ** argv)
   param_space << -5, 5;
   
   // Loading an optimizer from a Json file
-  rosban_bbo::OptimizerFactory f;
-  std::unique_ptr<rosban_bbo::Optimizer> optimizer = f.buildFromJsonFile(optimizer_path);
+  rhoban_bbo::OptimizerFactory f;
+  std::unique_ptr<rhoban_bbo::Optimizer> optimizer = f.buildFromJsonFile(optimizer_path);
   optimizer->setLimits(param_space);
 
   // Optimizing

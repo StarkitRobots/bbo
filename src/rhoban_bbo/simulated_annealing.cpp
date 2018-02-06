@@ -1,10 +1,10 @@
-#include "rosban_bbo/simulated_annealing.h"
+#include "rhoban_bbo/simulated_annealing.h"
 
 #include "rhoban_random/tools.h"
 
 #include <iostream>
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 SimulatedAnnealing::SimulatedAnnealing()

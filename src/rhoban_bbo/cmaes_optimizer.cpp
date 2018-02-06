@@ -1,10 +1,10 @@
-#include "rosban_bbo/cmaes_optimizer.h"
+#include "rhoban_bbo/cmaes_optimizer.h"
 
 #include "libcmaes/cmaes.h"
 
 using namespace libcmaes;
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 CMAESOptimizer::CMAESOptimizer()

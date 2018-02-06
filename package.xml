@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>rosban_bbo</name>
+  <name>rhoban_bbo</name>
   <version>0.0.0</version>
   <description>
     This package contains several blackbox optimizers and a factory allowing to
@@ -15,7 +15,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>rhoban_utils</build_depend> <!-- rhobanproject/rhoban_utils.git -->
-  <build_depend>rhoban_random</build_depend> <!-- rhobanproject/rhoban_random.git -->
+  <build_depend>rhoban_random</build_depend> <!-- rhoban/random.git -->
   <build_depend>libcmaes</build_depend> <!-- rhobandeps/libcmaes.git -->
 
   <run_depend>rhoban_utils</run_depend>

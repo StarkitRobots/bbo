@@ -1,8 +1,8 @@
-#include "rosban_bbo/monte_carlo_optimizer.h"
+#include "rhoban_bbo/monte_carlo_optimizer.h"
 
 #include "rhoban_random/tools.h"
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 MonteCarloOptimizer::MonteCarloOptimizer()

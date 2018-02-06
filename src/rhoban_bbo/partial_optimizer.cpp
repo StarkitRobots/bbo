@@ -1,13 +1,13 @@
-#include "rosban_bbo/partial_optimizer.h"
+#include "rhoban_bbo/partial_optimizer.h"
 
-#include "rosban_bbo/optimizer_factory.h"
+#include "rhoban_bbo/optimizer_factory.h"
 
 #include "rhoban_random/tools.h"
 #include "rhoban_utils/timing/time_stamp.h"
 
 using rhoban_utils::TimeStamp;
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 PartialOptimizer::PartialOptimizer()

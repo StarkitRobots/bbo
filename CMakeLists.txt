@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rosban_bbo)
+project(rhoban_bbo)
 
 find_package(catkin REQUIRED COMPONENTS
   rhoban_utils
@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++11 -fopenmp")
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES rosban_bbo
+  LIBRARIES rhoban_bbo
   CATKIN_DEPENDS rhoban_utils rhoban_random libcmaes
   )
 
@@ -28,7 +28,7 @@ include_directories(
 
 # Directories containing sources files
 set(DIRECTORIES
-  src/rosban_bbo
+  src/rhoban_bbo
   )
 
 # Build ALL_SOURCES
@@ -47,13 +47,13 @@ foreach (DIRECTORY ${DIRECTORIES})
 endforeach (DIRECTORY)
 
 # Declare the library
-add_library(rosban_bbo ${ALL_SOURCES} )
-target_link_libraries(rosban_bbo ${catkin_LIBRARIES})
+add_library(rhoban_bbo ${ALL_SOURCES} )
+target_link_libraries(rhoban_bbo ${catkin_LIBRARIES})
 
 if (ROSBAN_BBO_BUILD_EXAMPLES)
   add_executable(bbo_example examples/bbo_example.cpp)
-  target_link_libraries(bbo_example rosban_bbo ${catkin_LIBRARIES})
+  target_link_libraries(bbo_example rhoban_bbo ${catkin_LIBRARIES})
 
   add_executable(test_cmaes_limits examples/test_cmaes_limits.cpp)
-  target_link_libraries(test_cmaes_limits rosban_bbo ${catkin_LIBRARIES})
+  target_link_libraries(test_cmaes_limits rhoban_bbo ${catkin_LIBRARIES})
 endif()

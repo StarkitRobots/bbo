@@ -1,6 +1,6 @@
-#include "rosban_bbo/optimizer.h"
+#include "rhoban_bbo/optimizer.h"
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 class SimulatedAnnealing : public Optimizer {

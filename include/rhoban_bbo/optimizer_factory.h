@@ -1,8 +1,8 @@
-#include "rosban_bbo/optimizer.h"
+#include "rhoban_bbo/optimizer.h"
 
 #include "rhoban_utils/serialization/factory.h"
 
-namespace rosban_bbo
+namespace rhoban_bbo
 {
 
 class OptimizerFactory : public rhoban_utils::Factory<Optimizer> {
