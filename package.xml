@@ -14,7 +14,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>rhoban_utils</build_depend> <!-- rhobanproject/rhoban_utils.git -->
+  <build_depend>rhoban_utils</build_depend> <!-- rhoban/utils.git -->
   <build_depend>rhoban_random</build_depend> <!-- rhoban/random.git -->
   <build_depend>libcmaes</build_depend> <!-- rhobandeps/libcmaes.git -->
 
