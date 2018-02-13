@@ -1,0 +1,25 @@
+{
+    "class name" : "SinProd",
+    "content" : {
+        "input_limits" : {
+            "rows" : 5,
+            "cols" : 2,
+            "values" : [
+                [0, 1],
+                [0, 2],
+                [0, 1],
+                [0, 1],
+                [0, 1]
+            ]
+        },
+        "periods" : {
+            "rows" : 5,
+            "values" : [1,2,1,1,1]
+        },
+        "offsets" : {
+            "rows" : 5,
+            "values" : [0,0,0,0,1]
+        },
+        "stddev" : 0.01
+    }
+}

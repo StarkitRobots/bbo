@@ -2,7 +2,7 @@
     "class name" : "CMAESOptimizer",
     "content" : {
         "quiet" : false,
-        "nb_evaluations" : 50000,
-        "population_size" : 1000
+        "nb_evaluations" : 100000,
+        "population_size" : 5000
     }
 }
