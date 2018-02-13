@@ -2,6 +2,7 @@ set(SOURCES
   cmaes_optimizer.cpp
   composite_optimizer.cpp
   cross_entropy.cpp
+  hoo.cpp
   monte_carlo_optimizer.cpp
   optimizer.cpp
   optimizer_factory.cpp

@@ -1,0 +1,8 @@
+{
+    "class name" : "HOO",
+    "content" : {
+        "max_calls" : 10000,
+        "rho" : 0.5,
+        "nu1" : 0.5
+    }
+}

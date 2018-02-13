@@ -1,0 +1,19 @@
+{
+    "class name" : "MSEOptimization",
+    "content" : {
+        "input_limits" : {
+            "rows" : 3,
+            "cols" : 2,
+            "values" : [
+                [-5, 5],
+                [-3, 3],
+                [-2, 2]
+            ]
+        },
+        "optimum" : {
+            "rows" : 3,
+            "values" : [1,-1,0]
+        },
+        "stddev" : 0.1
+    }
+}
