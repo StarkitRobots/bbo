@@ -4,6 +4,7 @@
 
 #include <Eigen/Core>
 
+#include <memory>
 #include <random>
 
 namespace rhoban_bbo
@@ -32,6 +33,8 @@ public:
 
   virtual void setLimits(const Eigen::MatrixXd & new_limits);
   const Eigen::MatrixXd & getLimits() const;
+
+  virtual std::unique_ptr<Optimizer> clone() const = 0;
 private:
   Eigen::MatrixXd limits;
 };

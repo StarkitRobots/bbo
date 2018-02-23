@@ -13,6 +13,12 @@ SimulatedAnnealing::SimulatedAnnealing()
     verbose(false)
 {}
 
+SimulatedAnnealing::SimulatedAnnealing(const SimulatedAnnealing & other)
+  : initial_temperature(other.initial_temperature),
+    nb_trials(other.nb_trials),
+    verbose(other.verbose)
+{}
+
 Eigen::VectorXd SimulatedAnnealing::train(RewardFunc & reward_sampler,
                                           const Eigen::VectorXd & initial_candidate,
                                           std::default_random_engine * engine)
@@ -117,6 +123,10 @@ void SimulatedAnnealing::fromJson(const Json::Value & v, const std::string & dir
   rhoban_utils::tryRead(v, "nb_trials"          , &nb_trials          );
   rhoban_utils::tryRead(v, "initial_temperature", &initial_temperature);
   rhoban_utils::tryRead(v, "verbose"            , &verbose            );
+}
+
+std::unique_ptr<Optimizer> SimulatedAnnealing::clone() const {
+  return std::unique_ptr<Optimizer>(new SimulatedAnnealing(*this));
 }
 
 

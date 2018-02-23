@@ -14,6 +14,10 @@ PartialOptimizer::PartialOptimizer()
   : ratio_used(0.5)
 {}
 
+PartialOptimizer::PartialOptimizer(const PartialOptimizer & other)
+  : ratio_used(other.ratio_used)
+{}
+
 Eigen::VectorXd PartialOptimizer::train(RewardFunc & reward,
                                           const Eigen::VectorXd & initial_candidate,
                                           std::default_random_engine * engine) {
@@ -69,6 +73,10 @@ void PartialOptimizer::fromJson(const Json::Value & v, const std::string & dir_n
   (void) dir_name;
   rhoban_utils::tryRead(v, "ratio_used", &ratio_used);
   optimizer = OptimizerFactory().read(v, "optimizer",dir_name);
+}
+
+std::unique_ptr<Optimizer> PartialOptimizer::clone() const {
+  return std::unique_ptr<Optimizer>(new PartialOptimizer(*this));
 }
 
 }

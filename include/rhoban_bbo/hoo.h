@@ -67,6 +67,7 @@ private:
 class HOO : public Optimizer {
 public:
   HOO();
+  HOO(const HOO & other);
 
   virtual Eigen::VectorXd train(RewardFunc & reward,
                                 const Eigen::VectorXd & initial_candidate,
@@ -77,6 +78,8 @@ public:
   virtual Json::Value toJson() const override;
   virtual void fromJson(const Json::Value & v, const std::string & dir_name) override;
   virtual std::string getClassName() const override;
+
+  virtual std::unique_ptr<Optimizer> clone() const override;
 
 private:
   /// Number of calls allowed

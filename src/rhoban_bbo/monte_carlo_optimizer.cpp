@@ -9,6 +9,10 @@ MonteCarloOptimizer::MonteCarloOptimizer()
   : nb_trials(100)
 {}
 
+MonteCarloOptimizer::MonteCarloOptimizer(const MonteCarloOptimizer & other)
+  : nb_trials(other.nb_trials)
+{}
+
 Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc & reward_sampler,
                                            const Eigen::VectorXd & initial_candidate,
                                            std::default_random_engine * engine)
@@ -61,5 +65,8 @@ void MonteCarloOptimizer::fromJson(const Json::Value & v, const std::string & di
   rhoban_utils::tryRead(v, "nb_trials", &nb_trials);
 }
 
+std::unique_ptr<Optimizer> MonteCarloOptimizer::clone() const {
+  return std::unique_ptr<Optimizer>(new MonteCarloOptimizer(*this));
+}
 
 }

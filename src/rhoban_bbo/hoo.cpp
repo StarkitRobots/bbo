@@ -97,6 +97,11 @@ void HOONode::propagateSample(double reward) {
 HOO::HOO() : max_calls(100), rho(-1), nu1(-1) {
 }
 
+HOO::HOO(const HOO & other)
+  : max_calls(other.max_calls),
+    rho(other.rho), nu1(other.nu1) {
+}
+
 void HOO::setMaxCalls(int new_max_calls) {
   max_calls = new_max_calls;
 }
@@ -140,6 +145,11 @@ Json::Value HOO::toJson() const {
 std::string HOO::getClassName() const {
   return "HOO";
 }
+
+std::unique_ptr<Optimizer> HOO::clone() const {
+  return std::unique_ptr<Optimizer>(new HOO(*this));
+}
+
 
 
 }

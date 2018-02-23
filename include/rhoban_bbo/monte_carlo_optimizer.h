@@ -6,6 +6,7 @@ namespace rhoban_bbo
 class MonteCarloOptimizer : public Optimizer {
 public:
   MonteCarloOptimizer();
+  MonteCarloOptimizer(const MonteCarloOptimizer & other);
 
   virtual Eigen::VectorXd train(RewardFunc & reward,
                                 const Eigen::VectorXd & initial_candidate,
@@ -16,6 +17,8 @@ public:
   virtual std::string getClassName() const override;
   virtual Json::Value toJson() const override;
   virtual void fromJson(const Json::Value & v, const std::string & dir_name) override;
+
+  virtual std::unique_ptr<Optimizer> clone() const override;
 
 private:
   /// Nb different set of parameters tested

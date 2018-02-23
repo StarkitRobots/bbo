@@ -8,6 +8,7 @@ namespace rhoban_bbo
 class CompositeOptimizer : public Optimizer {
 public:
   CompositeOptimizer();
+  CompositeOptimizer(const CompositeOptimizer & other);
 
   virtual Eigen::VectorXd train(RewardFunc & reward,
                                 const Eigen::VectorXd & initial_candidate,
@@ -20,6 +21,8 @@ public:
   virtual void setMaxCalls(int max_calls) override;
 
   virtual void setLimits(const Eigen::MatrixXd & new_limits) override;
+
+  virtual std::unique_ptr<Optimizer> clone() const override;
 
 private:
   /// The list of available optimizers

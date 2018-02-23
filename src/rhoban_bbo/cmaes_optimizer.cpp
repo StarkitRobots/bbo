@@ -19,6 +19,18 @@ CMAESOptimizer::CMAESOptimizer()
 {
 }
 
+CMAESOptimizer::CMAESOptimizer(const CMAESOptimizer & other)
+  : quiet(other.quiet),
+    nb_iterations(other.nb_iterations),
+    nb_evaluations(other.nb_evaluations),
+    nb_restarts(other.nb_restarts),
+    population_size(other.population_size),
+    ftolerance(other.ftolerance),
+    max_history(other.max_history),
+    elitism(other.elitism)
+{
+}
+
 Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
                                       const Eigen::VectorXd & initial_candidate,
                                       std::default_random_engine * engine)
@@ -132,5 +144,8 @@ void CMAESOptimizer::fromJson(const Json::Value & v,
   rhoban_utils::tryRead(v, "ftolerance"     , &ftolerance     );
 }
 
+std::unique_ptr<Optimizer> CMAESOptimizer::clone() const {
+  return std::unique_ptr<Optimizer>(new CMAESOptimizer(*this));
+}
 
 }

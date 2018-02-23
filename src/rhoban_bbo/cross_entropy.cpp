@@ -16,6 +16,12 @@ CrossEntropy::CrossEntropy()
     best_set_size(10)
 {}
 
+CrossEntropy::CrossEntropy(const CrossEntropy & other)
+  : nb_generations(other.nb_generations),
+    population_size(other.population_size),
+    best_set_size(other.best_set_size)
+{}
+
 Eigen::VectorXd CrossEntropy::train(RewardFunc & reward_sampler,
                                     const Eigen::VectorXd & initial_candidate,
                                     std::default_random_engine * engine)
@@ -98,6 +104,10 @@ void CrossEntropy::fromJson(const Json::Value & v, const std::string & dir_name)
   rhoban_utils::tryRead(v, "nb_generations" , &nb_generations );
   rhoban_utils::tryRead(v, "population_size", &population_size);
   rhoban_utils::tryRead(v, "best_set_size"  , &best_set_size  );
+}
+
+std::unique_ptr<Optimizer> CrossEntropy::clone() const {
+  return std::unique_ptr<Optimizer>(new CrossEntropy(*this));
 }
 
 

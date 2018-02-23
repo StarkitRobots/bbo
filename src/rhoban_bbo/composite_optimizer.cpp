@@ -14,6 +14,18 @@ CompositeOptimizer::CompositeOptimizer()
   : validation_trials(1), debug_level(0)
 {}
 
+CompositeOptimizer::CompositeOptimizer(const CompositeOptimizer & other)
+  : names(other.names),
+    weights(other.weights),
+    validation_trials(other.validation_trials),
+    debug_level(other.debug_level)
+{
+  for (size_t idx = 0; idx < other.optimizers.size(); idx++) {
+    optimizers.push_back(other.optimizers[idx]->clone());
+  }
+}
+
+
 Eigen::VectorXd CompositeOptimizer::train(RewardFunc & reward,
                                           const Eigen::VectorXd & initial_candidate,
                                           std::default_random_engine * engine) {
@@ -123,6 +135,10 @@ void CompositeOptimizer::setLimits(const Eigen::MatrixXd & new_limits) {
   for (unsigned int i = 0; i < optimizers.size(); i++) {
     optimizers[i]->setLimits(new_limits);
   }
+}
+
+std::unique_ptr<Optimizer> CompositeOptimizer::clone() const {
+  return std::unique_ptr<Optimizer>(new CompositeOptimizer(*this));
 }
 
 }
