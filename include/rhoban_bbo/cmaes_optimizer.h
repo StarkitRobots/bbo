@@ -53,6 +53,11 @@ private:
   ///    ever seen solution and reinjects the best solution until population
   ///    has better fitness
   int elitism;
+
+  /// Is CMAES using its own multithreading for function evaluation (warning,
+  /// uses all the cores available on the computer and can use concurrent access
+  /// to evaluation function)
+  bool multithread_feval;
 };
 
 }

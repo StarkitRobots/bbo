@@ -15,7 +15,8 @@ CMAESOptimizer::CMAESOptimizer()
     population_size(-1),
     ftolerance(1e-10),
     max_history(-1),
-    elitism(1)
+    elitism(1),
+    multithread_feval(false)
 {
 }
 
@@ -27,7 +28,8 @@ CMAESOptimizer::CMAESOptimizer(const CMAESOptimizer & other)
     population_size(other.population_size),
     ftolerance(other.ftolerance),
     max_history(other.max_history),
-    elitism(other.elitism)
+    elitism(other.elitism),
+    multithread_feval(other.multithread_feval)
 {
 }
 
@@ -73,7 +75,7 @@ Eigen::VectorXd CMAESOptimizer::train(RewardFunc & reward,
   // Updating params of
   //cma_params.set_noisy();//Effect of this function is quite unclear
   cma_params.set_quiet(quiet);
-  cma_params.set_mt_feval(true);
+  cma_params.set_mt_feval(multithread_feval);
   cma_params.set_str_algo("abipop");
   cma_params.set_elitism(elitism);
   cma_params.set_restarts(nb_restarts);
@@ -119,14 +121,15 @@ std::string CMAESOptimizer::getClassName() const
 Json::Value CMAESOptimizer::toJson() const
 {
   Json::Value v;
-  v["quiet"          ] = quiet          ;
-  v["nb_iterations"  ] = nb_iterations  ;
-  v["nb_evaluations" ] = nb_evaluations ;
-  v["nb_restarts"    ] = nb_restarts    ;
-  v["population_size"] = population_size;
-  v["max_history"    ] = max_history    ;
-  v["elitism"        ] = elitism        ;
-  v["ftolerance"     ] = ftolerance     ;
+  v["quiet"            ] = quiet            ;
+  v["nb_iterations"    ] = nb_iterations    ;
+  v["nb_evaluations"   ] = nb_evaluations   ;
+  v["nb_restarts"      ] = nb_restarts      ;
+  v["population_size"  ] = population_size  ;
+  v["max_history"      ] = max_history      ;
+  v["elitism"          ] = elitism          ;
+  v["ftolerance"       ] = ftolerance       ;
+  v["multithread_feval"] = multithread_feval;
   return v;
 }
 
@@ -134,14 +137,15 @@ void CMAESOptimizer::fromJson(const Json::Value & v,
                               const std::string & dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "quiet"          , &quiet);
-  rhoban_utils::tryRead(v, "nb_iterations"  , &nb_iterations  );
-  rhoban_utils::tryRead(v, "nb_evaluations" , &nb_evaluations );
-  rhoban_utils::tryRead(v, "nb_restarts"    , &nb_restarts    );
-  rhoban_utils::tryRead(v, "population_size", &population_size);
-  rhoban_utils::tryRead(v, "max_history"    , &max_history    );
-  rhoban_utils::tryRead(v, "elitism"        , &elitism        );
-  rhoban_utils::tryRead(v, "ftolerance"     , &ftolerance     );
+  rhoban_utils::tryRead(v, "quiet"            , &quiet);
+  rhoban_utils::tryRead(v, "nb_iterations"    , &nb_iterations    );
+  rhoban_utils::tryRead(v, "nb_evaluations"   , &nb_evaluations   );
+  rhoban_utils::tryRead(v, "nb_restarts"      , &nb_restarts      );
+  rhoban_utils::tryRead(v, "population_size"  , &population_size  );
+  rhoban_utils::tryRead(v, "max_history"      , &max_history      );
+  rhoban_utils::tryRead(v, "elitism"          , &elitism          );
+  rhoban_utils::tryRead(v, "ftolerance"       , &ftolerance       );
+  rhoban_utils::tryRead(v, "multithread_feval", &multithread_feval);
 }
 
 std::unique_ptr<Optimizer> CMAESOptimizer::clone() const {
