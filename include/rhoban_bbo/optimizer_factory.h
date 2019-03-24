@@ -4,10 +4,10 @@
 
 namespace rhoban_bbo
 {
-
-class OptimizerFactory : public rhoban_utils::Factory<Optimizer> {
+class OptimizerFactory : public rhoban_utils::Factory<Optimizer>
+{
 public:
   OptimizerFactory();
 };
 
-}
+}  // namespace rhoban_bbo

@@ -4,13 +4,13 @@
 
 namespace rhoban_bbo
 {
-
 /// Note: While HOO can support topological spaces, we restrict ourselves to
 /// hyperrectangles for the sake of simplicity
-class HOONode {
+class HOONode
+{
 public:
-  HOONode(const Eigen::MatrixXd & space);
-  HOONode(HOONode * parent, const Eigen::MatrixXd & space);
+  HOONode(const Eigen::MatrixXd& space);
+  HOONode(HOONode* parent, const Eigen::MatrixXd& space);
   ~HOONode();
 
   /// Returns a greedy action based on samples collected
@@ -22,8 +22,7 @@ public:
   /// - Create child for current nodes
   /// If the node has already been visited:
   /// - Call sampleNextAction on the child with the best b-value
-  void sampleNextAction(Optimizer::RewardFunc rf,
-                        std::default_random_engine * engine);
+  void sampleNextAction(Optimizer::RewardFunc rf, std::default_random_engine* engine);
 
   /// rho and nu1 are parameters of the HOO algorithm
   void updateBValues(int n, double rho, double nu1, int depth = 0);
@@ -34,11 +33,11 @@ private:
   void propagateSample(double reward);
 
   /// Link toward the parent node, nullptr for the root
-  HOONode * parent;
+  HOONode* parent;
   /// A node with a non-null number of visits should always have a lower child
-  HOONode * lower_child;
+  HOONode* lower_child;
   /// A node with a non-null number of visits should always have a upper child
-  HOONode * upper_child;
+  HOONode* upper_child;
   /// The dimension along which the space is separated
   int split_dim;
   /// The value along at which the space is seperated
@@ -64,19 +63,19 @@ private:
 /// - alpha: a parameter related to dissimilarity in input f(x,y) = ||x-y||^alpha
 /// - rho: 2^{-alpha/D}
 /// - nu1: (sqrt(D)/2)^alpha
-class HOO : public Optimizer {
+class HOO : public Optimizer
+{
 public:
   HOO();
-  HOO(const HOO & other);
+  HOO(const HOO& other);
 
-  virtual Eigen::VectorXd train(RewardFunc & reward,
-                                const Eigen::VectorXd & initial_candidate,
-                                std::default_random_engine * engine) override;
+  virtual Eigen::VectorXd train(RewardFunc& reward, const Eigen::VectorXd& initial_candidate,
+                                std::default_random_engine* engine) override;
 
   virtual void setMaxCalls(int max_calls) override;
 
   virtual Json::Value toJson() const override;
-  virtual void fromJson(const Json::Value & v, const std::string & dir_name) override;
+  virtual void fromJson(const Json::Value& v, const std::string& dir_name) override;
   virtual std::string getClassName() const override;
 
   virtual std::unique_ptr<Optimizer> clone() const override;
@@ -92,4 +91,4 @@ private:
   double nu1;
 };
 
-}
+}  // namespace rhoban_bbo

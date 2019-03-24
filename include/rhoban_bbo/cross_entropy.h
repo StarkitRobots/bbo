@@ -2,16 +2,14 @@
 
 namespace rhoban_bbo
 {
-
 class CrossEntropy : public Optimizer
 {
 public:
   CrossEntropy();
-  CrossEntropy(const CrossEntropy & other);
+  CrossEntropy(const CrossEntropy& other);
 
-  virtual Eigen::VectorXd train(RewardFunc & reward,
-                                const Eigen::VectorXd & initial_candidate,
-                                std::default_random_engine * engine);
+  virtual Eigen::VectorXd train(RewardFunc& reward, const Eigen::VectorXd& initial_candidate,
+                                std::default_random_engine* engine);
 
   /// Does not influence the number of generations, best_set_size is always 10% of pop_size
   virtual void setMaxCalls(int max_calls) override;
@@ -21,7 +19,7 @@ public:
 
   virtual std::string getClassName() const override;
   virtual Json::Value toJson() const override;
-  virtual void fromJson(const Json::Value & v, const std::string & dir_name) override;
+  virtual void fromJson(const Json::Value& v, const std::string& dir_name) override;
 
   virtual std::unique_ptr<Optimizer> clone() const override;
 
@@ -36,7 +34,6 @@ private:
 
   /// How many samples are considered for the next generation
   int best_set_size;
-
 };
 
-}
+}  // namespace rhoban_bbo

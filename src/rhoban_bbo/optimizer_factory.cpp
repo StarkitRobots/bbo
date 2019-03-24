@@ -10,23 +10,15 @@
 
 namespace rhoban_bbo
 {
-
 OptimizerFactory::OptimizerFactory()
 {
-  registerBuilder("MonteCarloOptimizer",
-                  []() { return std::unique_ptr<Optimizer>(new MonteCarloOptimizer); });
-  registerBuilder("CMAESOptimizer",
-                  []() { return std::unique_ptr<Optimizer>(new CMAESOptimizer); });
-  registerBuilder("CompositeOptimizer",
-                  []() { return std::unique_ptr<Optimizer>(new CompositeOptimizer); });
-  registerBuilder("CrossEntropy",
-                  []() { return std::unique_ptr<Optimizer>(new CrossEntropy); });
-  registerBuilder("HOO",
-                  []() { return std::unique_ptr<Optimizer>(new HOO); });
-  registerBuilder("PartialOptimizer",
-                  []() { return std::unique_ptr<Optimizer>(new PartialOptimizer); });
-  registerBuilder("SimulatedAnnealing",
-                  []() { return std::unique_ptr<Optimizer>(new SimulatedAnnealing); });
+  registerBuilder("MonteCarloOptimizer", []() { return std::unique_ptr<Optimizer>(new MonteCarloOptimizer); });
+  registerBuilder("CMAESOptimizer", []() { return std::unique_ptr<Optimizer>(new CMAESOptimizer); });
+  registerBuilder("CompositeOptimizer", []() { return std::unique_ptr<Optimizer>(new CompositeOptimizer); });
+  registerBuilder("CrossEntropy", []() { return std::unique_ptr<Optimizer>(new CrossEntropy); });
+  registerBuilder("HOO", []() { return std::unique_ptr<Optimizer>(new HOO); });
+  registerBuilder("PartialOptimizer", []() { return std::unique_ptr<Optimizer>(new PartialOptimizer); });
+  registerBuilder("SimulatedAnnealing", []() { return std::unique_ptr<Optimizer>(new SimulatedAnnealing); });
 }
 
-}
+}  // namespace rhoban_bbo
