@@ -14,12 +14,12 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>rhoban_utils</build_depend> <!-- rhoban/utils.git -->
-  <build_depend>rhoban_random</build_depend> <!-- rhoban/random.git -->
-  <build_depend>libcmaes</build_depend> <!-- rhobandeps/libcmaes.git -->
+  <build_depend>starkit_utils</build_depend> <!-- StarkitRobots/utils.git -->
+  <build_depend>starkit_random</build_depend> <!-- StarkitRobots/random.git -->
+  <build_depend>libcmaes</build_depend> <!-- StarkitRobots/libcmaes.git -->
 
-  <run_depend>rhoban_utils</run_depend>
-  <run_depend>rhoban_random</run_depend>
+  <run_depend>starkit_utils</run_depend>
+  <run_depend>starkit_random</run_depend>
   <run_depend>libcmaes</run_depend>
 
   <export/>
