@@ -1,14 +1,14 @@
-#include "rhoban_bbo/optimizer_factory.h"
+#include "starkit_bbo/optimizer_factory.h"
 
-#include "rhoban_bbo/cmaes_optimizer.h"
-#include "rhoban_bbo/composite_optimizer.h"
-#include "rhoban_bbo/cross_entropy.h"
-#include "rhoban_bbo/hoo.h"
-#include "rhoban_bbo/monte_carlo_optimizer.h"
-#include "rhoban_bbo/partial_optimizer.h"
-#include "rhoban_bbo/simulated_annealing.h"
+#include "starkit_bbo/cmaes_optimizer.h"
+#include "starkit_bbo/composite_optimizer.h"
+#include "starkit_bbo/cross_entropy.h"
+#include "starkit_bbo/hoo.h"
+#include "starkit_bbo/monte_carlo_optimizer.h"
+#include "starkit_bbo/partial_optimizer.h"
+#include "starkit_bbo/simulated_annealing.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 OptimizerFactory::OptimizerFactory()
 {
@@ -21,4 +21,4 @@ OptimizerFactory::OptimizerFactory()
   registerBuilder("SimulatedAnnealing", []() { return std::unique_ptr<Optimizer>(new SimulatedAnnealing); });
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

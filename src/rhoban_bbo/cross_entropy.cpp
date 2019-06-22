@@ -1,8 +1,8 @@
-#include "rhoban_bbo/cross_entropy.h"
+#include "starkit_bbo/cross_entropy.h"
 
-#include "rhoban_random/multivariate_gaussian.h"
+#include "starkit_random/multivariate_gaussian.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 bool candidateSort(const CrossEntropy::ScoredCandidate& c1, const CrossEntropy::ScoredCandidate& c2)
 {
@@ -28,7 +28,7 @@ Eigen::VectorXd CrossEntropy::train(RewardFunc& reward_sampler, const Eigen::Vec
   for (int generation = 0; generation < nb_generations; generation++)
   {
     // Getting samples of the generation
-    rhoban_random::MultivariateGaussian distrib(mean, covar);
+    starkit_random::MultivariateGaussian distrib(mean, covar);
     Eigen::MatrixXd samples = distrib.getSamples(population_size, engine);
     // Scoring samples
     std::vector<ScoredCandidate> candidates(population_size);
@@ -106,9 +106,9 @@ Json::Value CrossEntropy::toJson() const
 void CrossEntropy::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "nb_generations", &nb_generations);
-  rhoban_utils::tryRead(v, "population_size", &population_size);
-  rhoban_utils::tryRead(v, "best_set_size", &best_set_size);
+  starkit_utils::tryRead(v, "nb_generations", &nb_generations);
+  starkit_utils::tryRead(v, "population_size", &population_size);
+  starkit_utils::tryRead(v, "best_set_size", &best_set_size);
 }
 
 std::unique_ptr<Optimizer> CrossEntropy::clone() const
@@ -116,4 +116,4 @@ std::unique_ptr<Optimizer> CrossEntropy::clone() const
   return std::unique_ptr<Optimizer>(new CrossEntropy(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

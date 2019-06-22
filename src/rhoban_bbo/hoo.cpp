@@ -1,8 +1,8 @@
-#include "rhoban_bbo/hoo.h"
+#include "starkit_bbo/hoo.h"
 
-#include "rhoban_random/tools.h"
+#include "starkit_random/tools.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 HOONode::HOONode(const Eigen::MatrixXd& space) : HOONode(nullptr, space)
 {
@@ -69,7 +69,7 @@ void HOONode::sampleNextAction(Optimizer::RewardFunc rf, std::default_random_eng
   }
   // Nb visits == 0 -> first visit of the node
   // Chooses input randomly and sample reward
-  Eigen::VectorXd input = rhoban_random::getUniformSample(node_space, engine);
+  Eigen::VectorXd input = starkit_random::getUniformSample(node_space, engine);
   double reward = rf(input, engine);
   propagateSample(reward);
   // Chooses split (determinist currently)
@@ -156,9 +156,9 @@ Eigen::VectorXd HOO::train(RewardFunc& reward, const Eigen::VectorXd& initial_ca
 void HOO::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "max_calls", &max_calls);
-  rhoban_utils::tryRead(v, "rho", &rho);
-  rhoban_utils::tryRead(v, "nu1", &nu1);
+  starkit_utils::tryRead(v, "max_calls", &max_calls);
+  starkit_utils::tryRead(v, "rho", &rho);
+  starkit_utils::tryRead(v, "nu1", &nu1);
 }
 
 Json::Value HOO::toJson() const
@@ -180,4 +180,4 @@ std::unique_ptr<Optimizer> HOO::clone() const
   return std::unique_ptr<Optimizer>(new HOO(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

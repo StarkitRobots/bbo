@@ -1,6 +1,6 @@
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 class CMAESOptimizer : public Optimizer
 {
@@ -59,4 +59,4 @@ private:
   bool multithread_feval;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

@@ -1,12 +1,12 @@
-#include "rhoban_bbo/optimizer_factory.h"
+#include "starkit_bbo/optimizer_factory.h"
 
-#include "rhoban_utils/serialization/factory.h"
-#include "rhoban_random/tools.h"
+#include "starkit_utils/serialization/factory.h"
+#include "starkit_random/tools.h"
 
 #include <iostream>
 #include <cstdlib>
 
-class OptimizationTask : public rhoban_utils::JsonSerializable
+class OptimizationTask : public starkit_utils::JsonSerializable
 {
 public:
   OptimizationTask()
@@ -18,14 +18,14 @@ public:
   virtual Json::Value toJson() const override
   {
     Json::Value v;
-    v["input_limits"] = rhoban_utils::matrix2Json(input_limits);
+    v["input_limits"] = starkit_utils::matrix2Json(input_limits);
     return v;
   }
 
   virtual void fromJson(const Json::Value& v, const std::string& dir_name)
   {
     (void)dir_name;
-    rhoban_utils::tryRead(v, "input_limits", &input_limits);
+    starkit_utils::tryRead(v, "input_limits", &input_limits);
   }
 
   /// The limits allowed for input
@@ -50,7 +50,7 @@ public:
   Json::Value toJson() const override
   {
     Json::Value v = OptimizationTask::toJson();
-    v["optimum"] = rhoban_utils::vector2Json(optimum);
+    v["optimum"] = starkit_utils::vector2Json(optimum);
     v["stddev"] = stddev;
     return v;
   }
@@ -59,8 +59,8 @@ public:
   {
     (void)dir_name;
     OptimizationTask::fromJson(v, dir_name);
-    rhoban_utils::tryRead(v, "optimum", &optimum);
-    rhoban_utils::tryRead(v, "stddev", &stddev);
+    starkit_utils::tryRead(v, "optimum", &optimum);
+    starkit_utils::tryRead(v, "stddev", &stddev);
   }
 
   std::string getClassName() const override
@@ -100,8 +100,8 @@ public:
   Json::Value toJson() const override
   {
     Json::Value v = OptimizationTask::toJson();
-    v["periods"] = rhoban_utils::vector2Json(periods);
-    v["offsets"] = rhoban_utils::vector2Json(offsets);
+    v["periods"] = starkit_utils::vector2Json(periods);
+    v["offsets"] = starkit_utils::vector2Json(offsets);
     v["stddev"] = stddev;
     return v;
   }
@@ -110,9 +110,9 @@ public:
   {
     (void)dir_name;
     OptimizationTask::fromJson(v, dir_name);
-    rhoban_utils::tryRead(v, "periods", &periods);
-    rhoban_utils::tryRead(v, "offsets", &offsets);
-    rhoban_utils::tryRead(v, "stddev", &stddev);
+    starkit_utils::tryRead(v, "periods", &periods);
+    starkit_utils::tryRead(v, "offsets", &offsets);
+    starkit_utils::tryRead(v, "stddev", &stddev);
   }
 
   std::string getClassName() const override
@@ -153,8 +153,8 @@ public:
   Json::Value toJson() const override
   {
     Json::Value v = OptimizationTask::toJson();
-    v["periods"] = rhoban_utils::vector2Json(periods);
-    v["offsets"] = rhoban_utils::vector2Json(offsets);
+    v["periods"] = starkit_utils::vector2Json(periods);
+    v["offsets"] = starkit_utils::vector2Json(offsets);
     v["stddev"] = stddev;
     return v;
   }
@@ -163,9 +163,9 @@ public:
   {
     (void)dir_name;
     OptimizationTask::fromJson(v, dir_name);
-    rhoban_utils::tryRead(v, "periods", &periods);
-    rhoban_utils::tryRead(v, "offsets", &offsets);
-    rhoban_utils::tryRead(v, "stddev", &stddev);
+    starkit_utils::tryRead(v, "periods", &periods);
+    starkit_utils::tryRead(v, "offsets", &offsets);
+    starkit_utils::tryRead(v, "stddev", &stddev);
   }
 
   std::string getClassName() const override
@@ -178,7 +178,7 @@ public:
   double stddev;
 };
 
-class TaskFactory : public rhoban_utils::Factory<OptimizationTask>
+class TaskFactory : public starkit_utils::Factory<OptimizationTask>
 {
 public:
   TaskFactory()
@@ -205,13 +205,13 @@ int main(int argc, char** argv)
   std::unique_ptr<OptimizationTask> task = tf.buildFromJsonFile(task_path);
 
   // Loading optimizer from Json
-  rhoban_bbo::OptimizerFactory of;
-  std::unique_ptr<rhoban_bbo::Optimizer> optimizer = of.buildFromJsonFile(optimizer_path);
+  starkit_bbo::OptimizerFactory of;
+  std::unique_ptr<starkit_bbo::Optimizer> optimizer = of.buildFromJsonFile(optimizer_path);
   optimizer->setLimits(task->input_limits);
 
   // Optimizing
-  std::default_random_engine* engine = rhoban_random::newRandomEngine();
-  rhoban_bbo::Optimizer::RewardFunc reward_function = [&task](const Eigen::VectorXd& parameters,
+  std::default_random_engine* engine = starkit_random::newRandomEngine();
+  starkit_bbo::Optimizer::RewardFunc reward_function = [&task](const Eigen::VectorXd& parameters,
                                                               std::default_random_engine* engine) {
     return task->sampleReward(parameters, engine);
   };

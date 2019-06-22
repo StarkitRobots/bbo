@@ -1,6 +1,6 @@
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 class CrossEntropy : public Optimizer
 {
@@ -36,4 +36,4 @@ private:
   int best_set_size;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

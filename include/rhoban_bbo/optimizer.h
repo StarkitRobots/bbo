@@ -1,15 +1,15 @@
 #pragma once
 
-#include "rhoban_utils/serialization/json_serializable.h"
+#include "starkit_utils/serialization/json_serializable.h"
 
 #include <Eigen/Core>
 
 #include <memory>
 #include <random>
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
-class Optimizer : public rhoban_utils::JsonSerializable
+class Optimizer : public starkit_utils::JsonSerializable
 {
 public:
   /// RewardFunc are functions (eventually stochastic) returning the sampled
@@ -35,4 +35,4 @@ private:
   Eigen::MatrixXd limits;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

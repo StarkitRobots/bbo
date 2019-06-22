@@ -1,10 +1,10 @@
-#include "rhoban_bbo/simulated_annealing.h"
+#include "starkit_bbo/simulated_annealing.h"
 
-#include "rhoban_random/tools.h"
+#include "starkit_random/tools.h"
 
 #include <iostream>
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 SimulatedAnnealing::SimulatedAnnealing() : initial_temperature(100), nb_trials(100), verbose(false)
 {
@@ -91,7 +91,7 @@ Eigen::VectorXd SimulatedAnnealing::sampleNeighbor(const Eigen::VectorXd& state,
   delta_limits.col(0) = -amplitude;
   delta_limits.col(1) = amplitude;
 
-  Eigen::VectorXd delta = rhoban_random::getUniformSamplesMatrix(delta_limits, 1, engine);
+  Eigen::VectorXd delta = starkit_random::getUniformSamplesMatrix(delta_limits, 1, engine);
   Eigen::VectorXd neighbor = state + delta;
 
   // Bounding inside limits
@@ -130,9 +130,9 @@ Json::Value SimulatedAnnealing::toJson() const
 void SimulatedAnnealing::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "nb_trials", &nb_trials);
-  rhoban_utils::tryRead(v, "initial_temperature", &initial_temperature);
-  rhoban_utils::tryRead(v, "verbose", &verbose);
+  starkit_utils::tryRead(v, "nb_trials", &nb_trials);
+  starkit_utils::tryRead(v, "initial_temperature", &initial_temperature);
+  starkit_utils::tryRead(v, "verbose", &verbose);
 }
 
 std::unique_ptr<Optimizer> SimulatedAnnealing::clone() const
@@ -140,4 +140,4 @@ std::unique_ptr<Optimizer> SimulatedAnnealing::clone() const
   return std::unique_ptr<Optimizer>(new SimulatedAnnealing(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

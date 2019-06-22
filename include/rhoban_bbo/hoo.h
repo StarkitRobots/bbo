@@ -1,8 +1,8 @@
 #pragma once
 
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 /// Note: While HOO can support topological spaces, we restrict ourselves to
 /// hyperrectangles for the sake of simplicity
@@ -91,4 +91,4 @@ private:
   double nu1;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

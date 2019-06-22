@@ -1,8 +1,8 @@
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
 #include <memory>
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 /// This class acts allows to ignore easily some of the dimensions of the input
 /// to reduce the size search space. When a dimension is ignored, the 'guess'
@@ -35,4 +35,4 @@ private:
   double ratio_used;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

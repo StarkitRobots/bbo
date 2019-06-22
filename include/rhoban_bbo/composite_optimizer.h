@@ -1,8 +1,8 @@
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
 #include <memory>
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 class CompositeOptimizer : public Optimizer
 {
@@ -38,4 +38,4 @@ private:
   int debug_level;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

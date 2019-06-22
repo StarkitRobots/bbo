@@ -1,8 +1,8 @@
-#include "rhoban_bbo/monte_carlo_optimizer.h"
+#include "starkit_bbo/monte_carlo_optimizer.h"
 
-#include "rhoban_random/tools.h"
+#include "starkit_random/tools.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 MonteCarloOptimizer::MonteCarloOptimizer() : nb_trials(100)
 {
@@ -20,7 +20,7 @@ Eigen::VectorXd MonteCarloOptimizer::train(RewardFunc& reward_sampler, const Eig
 
   // Sampling candidates
   std::vector<Eigen::VectorXd> candidates;
-  candidates = rhoban_random::getUniformSamples(getLimits(), nb_trials, engine);
+  candidates = starkit_random::getUniformSamples(getLimits(), nb_trials, engine);
 
   // Getting best candidates
   double best_reward = std::numeric_limits<double>::lowest();
@@ -66,7 +66,7 @@ Json::Value MonteCarloOptimizer::toJson() const
 void MonteCarloOptimizer::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "nb_trials", &nb_trials);
+  starkit_utils::tryRead(v, "nb_trials", &nb_trials);
 }
 
 std::unique_ptr<Optimizer> MonteCarloOptimizer::clone() const
@@ -74,4 +74,4 @@ std::unique_ptr<Optimizer> MonteCarloOptimizer::clone() const
   return std::unique_ptr<Optimizer>(new MonteCarloOptimizer(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

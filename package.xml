@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>rhoban_bbo</name>
+  <name>starkit_bbo</name>
   <version>0.0.0</version>
   <description>
     This package contains several blackbox optimizers and a factory allowing to

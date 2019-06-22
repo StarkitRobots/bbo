@@ -1,13 +1,13 @@
-#include "rhoban_bbo/partial_optimizer.h"
+#include "starkit_bbo/partial_optimizer.h"
 
-#include "rhoban_bbo/optimizer_factory.h"
+#include "starkit_bbo/optimizer_factory.h"
 
-#include "rhoban_random/tools.h"
-#include "rhoban_utils/timing/time_stamp.h"
+#include "starkit_random/tools.h"
+#include "starkit_utils/timing/time_stamp.h"
 
-using rhoban_utils::TimeStamp;
+using starkit_utils::TimeStamp;
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 PartialOptimizer::PartialOptimizer() : ratio_used(0.5)
 {
@@ -22,7 +22,7 @@ Eigen::VectorXd PartialOptimizer::train(RewardFunc& reward, const Eigen::VectorX
 {
   int base_dims = getLimits().rows();
   int nb_dims_used = std::max(1, (int)(base_dims * ratio_used));
-  std::vector<size_t> dims_used = rhoban_random::getKDistinctFromN(nb_dims_used, base_dims, engine);
+  std::vector<size_t> dims_used = starkit_random::getKDistinctFromN(nb_dims_used, base_dims, engine);
   // Preparing new reward function
   RewardFunc hacked_reward = [&](const Eigen::VectorXd& hacked_params, std::default_random_engine* engine) {
     /// Getting real params
@@ -75,7 +75,7 @@ Json::Value PartialOptimizer::toJson() const
 void PartialOptimizer::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "ratio_used", &ratio_used);
+  starkit_utils::tryRead(v, "ratio_used", &ratio_used);
   optimizer = OptimizerFactory().read(v, "optimizer", dir_name);
 }
 
@@ -84,4 +84,4 @@ std::unique_ptr<Optimizer> PartialOptimizer::clone() const
   return std::unique_ptr<Optimizer>(new PartialOptimizer(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

@@ -1,6 +1,6 @@
-#include "rhoban_bbo/optimizer.h"
+#include "starkit_bbo/optimizer.h"
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 class MonteCarloOptimizer : public Optimizer
 {
@@ -24,4 +24,4 @@ private:
   int nb_trials;
 };
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo

@@ -1,10 +1,10 @@
-#include "rhoban_bbo/cmaes_optimizer.h"
+#include "starkit_bbo/cmaes_optimizer.h"
 
 #include "libcmaes/cmaes.h"
 
 using namespace libcmaes;
 
-namespace rhoban_bbo
+namespace starkit_bbo
 {
 CMAESOptimizer::CMAESOptimizer()
   : quiet(true)
@@ -138,15 +138,15 @@ Json::Value CMAESOptimizer::toJson() const
 void CMAESOptimizer::fromJson(const Json::Value& v, const std::string& dir_name)
 {
   (void)dir_name;
-  rhoban_utils::tryRead(v, "quiet", &quiet);
-  rhoban_utils::tryRead(v, "nb_iterations", &nb_iterations);
-  rhoban_utils::tryRead(v, "nb_evaluations", &nb_evaluations);
-  rhoban_utils::tryRead(v, "nb_restarts", &nb_restarts);
-  rhoban_utils::tryRead(v, "population_size", &population_size);
-  rhoban_utils::tryRead(v, "max_history", &max_history);
-  rhoban_utils::tryRead(v, "elitism", &elitism);
-  rhoban_utils::tryRead(v, "ftolerance", &ftolerance);
-  rhoban_utils::tryRead(v, "multithread_feval", &multithread_feval);
+  starkit_utils::tryRead(v, "quiet", &quiet);
+  starkit_utils::tryRead(v, "nb_iterations", &nb_iterations);
+  starkit_utils::tryRead(v, "nb_evaluations", &nb_evaluations);
+  starkit_utils::tryRead(v, "nb_restarts", &nb_restarts);
+  starkit_utils::tryRead(v, "population_size", &population_size);
+  starkit_utils::tryRead(v, "max_history", &max_history);
+  starkit_utils::tryRead(v, "elitism", &elitism);
+  starkit_utils::tryRead(v, "ftolerance", &ftolerance);
+  starkit_utils::tryRead(v, "multithread_feval", &multithread_feval);
 }
 
 std::unique_ptr<Optimizer> CMAESOptimizer::clone() const
@@ -154,4 +154,4 @@ std::unique_ptr<Optimizer> CMAESOptimizer::clone() const
   return std::unique_ptr<Optimizer>(new CMAESOptimizer(*this));
 }
 
-}  // namespace rhoban_bbo
+}  // namespace starkit_bbo
